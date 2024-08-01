@@ -3,7 +3,7 @@ extends CharacterBody2D
 
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
-const COMBO_LENGTH = [0.3]
+const COMBO_LENGTH = [0.35]
 
 enum STATE {ATTACKING, RECOVERING, DODGING, IDLE, RUNNING}
 
@@ -11,7 +11,7 @@ enum STATE {ATTACKING, RECOVERING, DODGING, IDLE, RUNNING}
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var state = STATE.IDLE
 
-var anim_player
+var anim_player: AnimationPlayer
 var state_timer = 0
 var combo_progress = 0
 
@@ -37,6 +37,12 @@ func _physics_process(delta):
 		velocity.x = direction * SPEED
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED)
+	
+	# handle state
+	if state == STATE.ATTACKING && state_timer > COMBO_LENGTH[combo_progress]:
+		state_timer = 0
+		anim_player.play("slash" + combo_progress)
+		combo_progress += 1
 
 	move_and_slide()
 	
