@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bfeupkcec0b4q"]
+[gd_scene load_steps=7 format=3 uid="uid://bfeupkcec0b4q"]
 
-[ext_resource type="Texture2D" uid="uid://c0ooddugos5uj" path="res://assets/knight-Sheet.png" id="1_fewl3"]
+[ext_resource type="Script" path="res://scripts/Player.gd" id="1_0chp3"]
+[ext_resource type="Texture2D" uid="uid://dy70u23m4rdg0" path="res://assets/knight-Sheet.png" id="1_fewl3"]
 
 [sub_resource type="Animation" id="Animation_hy26t"]
 resource_name = "idle"
@@ -33,6 +34,20 @@ tracks/0/keys = {
 "update": 1,
 "values": [1, 2, 3, 4, 5]
 }
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.15),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [12],
+"method": &"step"
+}]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qps0"]
 _data = {
@@ -40,7 +55,11 @@ _data = {
 "slash1": SubResource("Animation_ospc6")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ecm3f"]
+size = Vector2(96, 192)
+
 [node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_0chp3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -52,4 +71,7 @@ position = Vector2(0, -96)
 scale = Vector2(6, 6)
 texture = ExtResource("1_fewl3")
 hframes = 6
-frame = 5
+frame = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ecm3f")
