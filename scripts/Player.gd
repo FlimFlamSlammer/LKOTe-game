@@ -9,14 +9,14 @@ enum STATE {ATTACKING, RECOVERING, DODGING, IDLE, RUNNING}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-var state = STATE.IDLE
 
 var anim_player: AnimationPlayer
+
 var state_timer = 0
 var combo_progress = 0
-
+var state = STATE.IDLE
+var direction = 1
 var stepDistance = 0
-
 var input_buffer = ""
 
 func _ready():
@@ -34,7 +34,14 @@ func _physics_process(delta):
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis("ui_left", "ui_right")
+	var input_axis = Input.get_axis("ui_left", "ui_right")
+	
+	if input_axis > 0:
+		direction = 1
+	elif input_axis < 0:
+		direction = -1
+	
+	scale.x = direction
 	
 	# handle state
 	if state == STATE.ATTACKING:
@@ -43,8 +50,8 @@ func _physics_process(delta):
 		if state_timer > COMBO_LENGTH[combo_progress]:
 			state = STATE.RECOVERING
 	else:
-		if direction:
-			velocity.x = direction * SPEED
+		if input_axis:
+			velocity.x = input_axis * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 	
