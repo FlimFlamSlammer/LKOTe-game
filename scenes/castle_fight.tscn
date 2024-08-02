@@ -1,6 +1,10 @@
-[gd_scene format=3 uid="uid://nk57keysmejs"]
+[gd_scene load_steps=2 format=3 uid="uid://nk57keysmejs"]
+
+[ext_resource type="PackedScene" uid="uid://bfeupkcec0b4q" path="res://scenes/player.tscn" id="1_kpkdi"]
 
 [node name="CastleFight" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_kpkdi")]
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(-9.53674e-07, -9.53674e-07)
