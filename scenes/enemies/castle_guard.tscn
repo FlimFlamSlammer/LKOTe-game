@@ -1,16 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://bfeupkcec0b4q"]
+[gd_scene load_steps=13 format=3 uid="uid://djwmsjmdgaydc"]
 
-[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0chp3"]
-[ext_resource type="Texture2D" uid="uid://b8s6vxvvmeio6" path="res://assets/knight-sheet.png" id="2_pow0e"]
-[ext_resource type="Script" path="res://scripts/player/player_state_machine.gd" id="3_s4vq8"]
-[ext_resource type="Script" path="res://scripts/player/states/attacking.gd" id="4_davyj"]
-[ext_resource type="Script" path="res://scripts/player/states/recovering.gd" id="5_s4v4h"]
-[ext_resource type="Script" path="res://scripts/player/states/dodging.gd" id="6_hpgie"]
-[ext_resource type="Script" path="res://scripts/player/states/idle.gd" id="7_uqj2t"]
-[ext_resource type="Script" path="res://scripts/player/states/running.gd" id="8_0s023"]
-[ext_resource type="Script" path="res://scripts/player/states/jumping.gd" id="9_c05dt"]
-[ext_resource type="Script" path="res://scripts/player/states/falling.gd" id="10_r0sme"]
-[ext_resource type="Script" path="res://scripts/player/states/air_attacking.gd" id="11_xsasj"]
+[ext_resource type="Texture2D" uid="uid://b8s6vxvvmeio6" path="res://assets/knight-sheet.png" id="1_rgngi"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/castle_guard_sm.gd" id="2_40m21"]
 
 [sub_resource type="Animation" id="Animation_f18bo"]
 length = 0.001
@@ -207,13 +198,10 @@ _data = {
 "slash2": SubResource("Animation_qno5n")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ecm3f"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtoqq"]
 size = Vector2(16, 32)
 
-[node name="Player" type="CharacterBody2D"]
-position = Vector2(1, 0)
-collision_layer = 0
-script = ExtResource("1_0chp3")
+[node name="CastleGuard" type="CharacterBody2D"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -222,16 +210,16 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
-texture = ExtResource("2_pow0e")
+texture = ExtResource("1_rgngi")
 hframes = 8
 vframes = 6
 frame = 8
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_ecm3f")
+shape = SubResource("RectangleShape2D_wtoqq")
 
-[node name="TargetingRayCast" type="RayCast2D" parent="."]
-target_position = Vector2(50, 0)
+[node name="WallRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(30, 0)
 collision_mask = 2
 
 [node name="Hurtboxes" type="Node2D" parent="."]
@@ -259,30 +247,9 @@ rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-17, 6.00004, -11, -7.99997, -1.00004, -16, 16, -15, 7.00001, 2.99998, -8.99996, 14)
 
-[node name="StateTree" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
-script = ExtResource("3_s4vq8")
-initial_state = NodePath("Idle")
+[node name="StateTree" type="Node" parent="."]
+script = ExtResource("2_40m21")
 
-[node name="Attacking" type="Node" parent="StateTree"]
-script = ExtResource("4_davyj")
+[node name="Chasing" type="Node" parent="StateTree"]
 
-[node name="Recovering" type="Node" parent="StateTree"]
-script = ExtResource("5_s4v4h")
-
-[node name="Dodging" type="Node" parent="StateTree"]
-script = ExtResource("6_hpgie")
-
-[node name="Idle" type="Node" parent="StateTree"]
-script = ExtResource("7_uqj2t")
-
-[node name="Running" type="Node" parent="StateTree"]
-script = ExtResource("8_0s023")
-
-[node name="Jumping" type="Node" parent="StateTree"]
-script = ExtResource("9_c05dt")
-
-[node name="Falling" type="Node" parent="StateTree"]
-script = ExtResource("10_r0sme")
-
-[node name="AirAttacking" type="Node" parent="StateTree"]
-script = ExtResource("11_xsasj")
+[node name="Running" type="Node" parent="StateTree/Chasing"]
