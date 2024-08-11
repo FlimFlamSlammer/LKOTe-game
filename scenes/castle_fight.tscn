@@ -1,6 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://nk57keysmejs"]
+[gd_scene load_steps=6 format=3 uid="uid://nk57keysmejs"]
 
 [ext_resource type="PackedScene" uid="uid://bfeupkcec0b4q" path="res://scenes/player.tscn" id="1_kpkdi"]
+[ext_resource type="PackedScene" uid="uid://bsu5j18hi3my2" path="res://scenes/dummy.tscn" id="2_l1kph"]
+[ext_resource type="Shader" path="res://shaders/screenspace.gdshader" id="3_gih5o"]
+[ext_resource type="Script" path="res://scripts/camera.gd" id="3_pgak0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_i63kx"]
+shader = ExtResource("3_gih5o")
+shader_parameter/shift = null
 
 [node name="CastleFight" type="Node2D"]
 
@@ -20,3 +27,23 @@ position = Vector2(-112.241, -122.211)
 scale = Vector2(0.321608, 0.321608)
 color = Color(1, 0.466667, 0.254902, 1)
 polygon = PackedVector2Array(-34, 578, 1173, 578, 1171, 679, -26, 679)
+
+[node name="Dummy" parent="." instance=ExtResource("2_l1kph")]
+position = Vector2(296, 182)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(290, 180)
+zoom = Vector2(4, 4)
+script = ExtResource("3_pgak0")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Shift" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_i63kx")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0)
