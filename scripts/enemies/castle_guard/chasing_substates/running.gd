@@ -4,7 +4,6 @@ func physics_update(_delta: float) -> void:
 	var x_distance: float = casted_owner.target.position.x - casted_owner.position.x
 
 	if casted_owner.is_on_floor():
-
 		if absf(x_distance) < casted_owner.JUMP_RANGE:
 			var y_distance: float = casted_owner.target.position.y - casted_owner.position.y
 			if y_distance < casted_owner.JUMP_Y_DISTANCE:
@@ -22,7 +21,7 @@ func physics_update(_delta: float) -> void:
 
 
 func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
-	pass
+	casted_owner.anim_player.play("run")
 
 
 func exit() -> void:

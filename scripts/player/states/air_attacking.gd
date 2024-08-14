@@ -16,7 +16,7 @@ func physics_update(delta: float) -> void:
 		else:
 			finished.emit(States.IDLE)
 	else:
-		if casted_owner.time_since_attack > casted_owner.COMBO_LENGTH[casted_owner.combo_counter]:
+		if casted_owner.time_since_attack > casted_owner.combo_length[casted_owner.combo_counter]:
 			finished.emit(States.FALLING)
 
 	casted_owner.velocity.y += casted_owner.gravity * delta

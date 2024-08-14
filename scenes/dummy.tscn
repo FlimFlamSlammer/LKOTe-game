@@ -46,3 +46,7 @@ hframes = 3
 libraries = {
 "": SubResource("AnimationLibrary_m1yru")
 }
+
+[node name="WallRayCast" type="RayCast2D" parent="."]
+
+[node name="Hurtboxes" type="Node2D" parent="."]

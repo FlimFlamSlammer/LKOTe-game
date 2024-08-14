@@ -7,7 +7,7 @@ extends Node
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	for child_state: State in find_children("*", "State"):
+	for child_state: State in get_children():
 		child_state.finished.connect(set_state)
 
 	await owner.ready
