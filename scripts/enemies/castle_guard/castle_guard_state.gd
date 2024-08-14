@@ -2,15 +2,17 @@ class_name CastleGuardState
 extends State
 
 const SubStates: Dictionary = {
-	FINISHED = "",
+	FINISHED = "Finished",
 	RUNNING = "Running",
 	ATTACKING = "Attacking",
 	JUMPING = "Jumping",
 	AIRATTACKING = "AirAttacking",
 	FALLING = "Falling",
-	DODGING = "Dodging"
+	DODGING = "Dodging",
+	HIT = "Hit",
+	DYING = "Dying",
 }
 
-var casted_owner: CastleGuard = owner
+@onready var casted_owner: CastleGuard = owner
 
-@onready var parent: CastleGuardSubStateMachine = get_parent()
+@onready var parent := get_parent()

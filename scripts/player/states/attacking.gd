@@ -12,7 +12,7 @@ func handle_input(event: InputEvent) -> void:
 
 func physics_update(delta: float) -> void:
 	if casted_owner.is_on_floor():
-		if casted_owner.time_since_attack > casted_owner.COMBO_LENGTH[casted_owner.combo_counter]:
+		if casted_owner.time_since_attack > casted_owner.combo_length[casted_owner.combo_counter]:
 			finished.emit(States.RECOVERING)
 	else:
 		finished.emit(States.FALLING)
@@ -38,7 +38,7 @@ func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
 
 	if casted_owner.time_since_recover < casted_owner.COMBO_RESET_DELAY:
 		casted_owner.combo_counter += 1
-		casted_owner.combo_counter = casted_owner.combo_counter % casted_owner.COMBO_LENGTH.size()
+		casted_owner.combo_counter = casted_owner.combo_counter % casted_owner.combo_length.size()
 	else:
 		casted_owner.combo_counter = 0
 	casted_owner.time_since_attack = 0.0

@@ -1,7 +1,22 @@
-[gd_scene load_steps=13 format=3 uid="uid://djwmsjmdgaydc"]
+[gd_scene load_steps=28 format=3 uid="uid://djwmsjmdgaydc"]
 
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/castle_guard.gd" id="1_83ajc"]
 [ext_resource type="Texture2D" uid="uid://b8s6vxvvmeio6" path="res://assets/knight-sheet.png" id="1_rgngi"]
 [ext_resource type="Script" path="res://scripts/enemies/castle_guard/castle_guard_sm.gd" id="2_40m21"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/states/chasing.gd" id="3_e11jc"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/chasing_substates/running.gd" id="4_3hvhx"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/chasing_substates/jumping.gd" id="5_6d050"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/chasing_substates/falling.gd" id="6_uf4l5"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/chasing_substates/attacking.gd" id="7_ogbdm"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/chasing_substates/air_attacking.gd" id="8_htu5m"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/states/defending.gd" id="9_44vmp"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/defending_substates/running.gd" id="10_nj37e"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/defending_substates/jumping.gd" id="11_6y0j3"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/defending_substates/falling.gd" id="12_6qckp"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/defending_substates/dodging.gd" id="13_7u7k5"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/hit_substates/hit.gd" id="15_0slcs"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/states/hit.gd" id="15_x8efo"]
+[ext_resource type="Script" path="res://scripts/enemies/castle_guard/hit_substates/dying.gd" id="16_dr3hl"]
 
 [sub_resource type="Animation" id="Animation_f18bo"]
 length = 0.001
@@ -16,6 +31,80 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [8]
+}
+
+[sub_resource type="Animation" id="Animation_ospc6"]
+resource_name = "attack1"
+length = 0.35
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [9, 10, 11, 12, 13]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [3],
+"method": &"step"
+}, {
+"args": [1, 1],
+"method": &"instantiate_temp_fx"
+}, {
+"args": [],
+"method": &"hit_enemy"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_qno5n"]
+resource_name = "attack2"
+length = 0.250002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.25),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [4],
+"method": &"step"
+}, {
+"args": [1, 2],
+"method": &"instantiate_temp_fx"
+}, {
+"args": [],
+"method": &"hit_enemy"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_ny8pe"]
@@ -112,96 +201,25 @@ tracks/0/keys = {
 "values": [32, 33, 34, 35, 36, 37, 38, 39]
 }
 
-[sub_resource type="Animation" id="Animation_ospc6"]
-resource_name = "slash1"
-length = 0.35
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.25, 0.3, 0.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [9, 10, 11, 12, 13]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [3],
-"method": &"step"
-}, {
-"args": [1, 1],
-"method": &"instantiate_temp_fx"
-}, {
-"args": [],
-"method": &"hit_enemy"
-}]
-}
-
-[sub_resource type="Animation" id="Animation_qno5n"]
-resource_name = "slash2"
-length = 0.250002
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame_coords")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.25),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5)]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
-"transitions": PackedFloat32Array(1, 1, 1),
-"values": [{
-"args": [4],
-"method": &"step"
-}, {
-"args": [1, 2],
-"method": &"instantiate_temp_fx"
-}, {
-"args": [],
-"method": &"hit_enemy"
-}]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qps0"]
 _data = {
 "RESET": SubResource("Animation_f18bo"),
+"attack1": SubResource("Animation_ospc6"),
+"attack2": SubResource("Animation_qno5n"),
 "dodge": SubResource("Animation_ny8pe"),
 "fall": SubResource("Animation_16two"),
 "idle": SubResource("Animation_hy26t"),
 "jump": SubResource("Animation_2v3tf"),
-"run": SubResource("Animation_f085b"),
-"slash1": SubResource("Animation_ospc6"),
-"slash2": SubResource("Animation_qno5n")
+"run": SubResource("Animation_f085b")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_wtoqq"]
 size = Vector2(16, 32)
 
 [node name="CastleGuard" type="CharacterBody2D"]
+position = Vector2(12, 0)
+collision_layer = 2
+script = ExtResource("1_83ajc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -229,7 +247,7 @@ position = Vector2(1, 0)
 rotation = 3.14159
 scale = Vector2(1, -1)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 4
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hurtboxes/0"]
 visible = false
@@ -237,7 +255,7 @@ polygon = PackedVector2Array(2.00001, 1.99999, -22, 8.00006, -23, 5.83092e-05, -
 
 [node name="1" type="Area2D" parent="Hurtboxes"]
 collision_layer = 0
-collision_mask = 2
+collision_mask = 4
 monitorable = false
 
 [node name="Hurtbox" type="CollisionPolygon2D" parent="Hurtboxes/1"]
@@ -247,9 +265,58 @@ rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-17, 6.00004, -11, -7.99997, -1.00004, -16, 16, -15, 7.00001, 2.99998, -8.99996, 14)
 
-[node name="StateTree" type="Node" parent="."]
+[node name="StateTree" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("2_40m21")
+initial_state = NodePath("Chasing")
 
-[node name="Chasing" type="Node" parent="StateTree"]
+[node name="Chasing" type="Node" parent="StateTree" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("3_e11jc")
+initial_state = NodePath("Falling")
 
 [node name="Running" type="Node" parent="StateTree/Chasing"]
+script = ExtResource("4_3hvhx")
+
+[node name="Jumping" type="Node" parent="StateTree/Chasing"]
+script = ExtResource("5_6d050")
+
+[node name="Falling" type="Node" parent="StateTree/Chasing"]
+script = ExtResource("6_uf4l5")
+
+[node name="Attacking" type="Node" parent="StateTree/Chasing"]
+script = ExtResource("7_ogbdm")
+
+[node name="AirAttacking" type="Node" parent="StateTree/Chasing"]
+script = ExtResource("8_htu5m")
+
+[node name="Defending" type="Node" parent="StateTree" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("9_44vmp")
+initial_state = NodePath("Dodging")
+
+[node name="Running" type="Node" parent="StateTree/Defending"]
+script = ExtResource("10_nj37e")
+
+[node name="Jumping" type="Node" parent="StateTree/Defending"]
+script = ExtResource("11_6y0j3")
+
+[node name="Falling" type="Node" parent="StateTree/Defending"]
+script = ExtResource("12_6qckp")
+
+[node name="Dodging" type="Node" parent="StateTree/Defending"]
+script = ExtResource("13_7u7k5")
+
+[node name="Hit" type="Node" parent="StateTree" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("15_x8efo")
+initial_state = NodePath("Hit")
+
+[node name="Hit" type="Node" parent="StateTree/Hit"]
+script = ExtResource("15_0slcs")
+
+[node name="Dying" type="Node" parent="StateTree/Hit"]
+script = ExtResource("16_dr3hl")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -44.0
+offset_top = -88.0
+offset_right = 43.0
+offset_bottom = -18.0
+text = "fat man"

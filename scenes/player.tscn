@@ -212,7 +212,7 @@ size = Vector2(16, 32)
 
 [node name="Player" type="CharacterBody2D"]
 position = Vector2(1, 0)
-collision_layer = 0
+collision_layer = 4
 script = ExtResource("1_0chp3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -232,7 +232,6 @@ shape = SubResource("RectangleShape2D_ecm3f")
 
 [node name="TargetingRayCast" type="RayCast2D" parent="."]
 target_position = Vector2(50, 0)
-collision_mask = 2
 
 [node name="Hurtboxes" type="Node2D" parent="."]
 

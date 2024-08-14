@@ -13,7 +13,7 @@ func physics_update(_delta: float) -> void:
 	if casted_owner.is_on_floor():
 		if absf(casted_owner.velocity.x) > casted_owner.RUN_SPEED_TRESHOLD:
 			finished.emit(States.RUNNING)
-		elif casted_owner.time_since_recover > casted_owner.RECOVERY_LENGTH[casted_owner.combo_counter]:
+		elif casted_owner.time_since_recover > casted_owner.recovery_length[casted_owner.combo_counter]:
 			finished.emit(States.IDLE)
 	else:
 		finished.emit(States.FALLING)
