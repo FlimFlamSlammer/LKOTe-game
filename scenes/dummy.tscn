@@ -28,7 +28,7 @@ _data = {
 "hit": SubResource("Animation_0n8bg")
 }
 
-[node name="Dummy" type="CharacterBody2D"]
+[node name="Dummy" type="CharacterBody2D" groups=["Enemies"]]
 z_index = 1
 collision_layer = 2
 script = ExtResource("1_ba8c7")
@@ -41,6 +41,7 @@ shape = SubResource("RectangleShape2D_qjlf7")
 position = Vector2(0, -16)
 texture = ExtResource("2_q2umn")
 hframes = 3
+frame = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

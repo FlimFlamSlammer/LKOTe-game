@@ -1,24 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://nk57keysmejs"]
+[gd_scene load_steps=3 format=3 uid="uid://nk57keysmejs"]
 
 [ext_resource type="PackedScene" uid="uid://bfeupkcec0b4q" path="res://scenes/player.tscn" id="1_kpkdi"]
-[ext_resource type="PackedScene" uid="uid://djwmsjmdgaydc" path="res://scenes/enemies/castle_guard.tscn" id="2_ggl6n"]
-[ext_resource type="PackedScene" uid="uid://bsu5j18hi3my2" path="res://scenes/dummy.tscn" id="2_l1kph"]
-[ext_resource type="Shader" path="res://shaders/screenspace.gdshader" id="3_gih5o"]
-[ext_resource type="Script" path="res://scripts/camera.gd" id="3_pgak0"]
+[ext_resource type="PackedScene" uid="uid://bumd61lymcuux" path="res://scenes/enemies/spear_castle_guard.tscn" id="3_caqbv"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_i63kx"]
-shader = ExtResource("3_gih5o")
-shader_parameter/shift = null
-
-[node name="CastleFight" type="Node2D"]
+[node name="Level" type="Node2D"]
+process_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("1_kpkdi")]
-
-[node name="CastleGuard" parent="." instance=ExtResource("2_ggl6n")]
-position = Vector2(142.93, 0)
+impact = Array[float]([0.02, 0.02])
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(-9.53674e-07, -9.53674e-07)
+position = Vector2(0, 65.58)
 scale = Vector2(3.10937, 3.10937)
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
@@ -32,22 +24,24 @@ scale = Vector2(0.321608, 0.321608)
 color = Color(1, 0.466667, 0.254902, 1)
 polygon = PackedVector2Array(-34, 578, 1173, 578, 1171, 679, -26, 679)
 
-[node name="Dummy" parent="." instance=ExtResource("2_l1kph")]
-position = Vector2(296, 182)
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(290, 180)
-zoom = Vector2(4, 4)
-script = ExtResource("3_pgak0")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D2"]
+color = Color(0.492188, 0.244171, 0.244171, 1)
+polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="Shift" type="ColorRect" parent="CanvasLayer"]
-material = SubResource("ShaderMaterial_i63kx")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
+[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+position = Vector2(553.785, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3"]
+polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
+
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
+color = Color(0.492188, 0.244171, 0.244171, 1)
+polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_caqbv")]
+position = Vector2(249, 83)

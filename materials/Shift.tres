@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://clveml1ob6ok8"]
+
+[ext_resource type="Shader" path="res://shaders/screenspace.gdshader" id="1_171gd"]
+
+[resource]
+shader = ExtResource("1_171gd")
+shader_parameter/shift = null

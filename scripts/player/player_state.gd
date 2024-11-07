@@ -9,6 +9,7 @@ const States: Dictionary = {
 	DODGING = "Dodging",
 	JUMPING = "Jumping",
 	FALLING = "Falling",
+	HIT = "Hit",
 }
 
 @onready var casted_owner: Player = owner

@@ -1,6 +1,6 @@
 extends PlayerState
 
-func handle_input(event: InputEvent) -> void:
+func _handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("dodge"):
 		finished.emit(States.DODGING)
 	elif event.is_action_pressed("jump"):
@@ -9,9 +9,9 @@ func handle_input(event: InputEvent) -> void:
 		casted_owner.input_buffer = casted_owner.BufferableStates.ATTACKING
 
 
-func physics_update(delta: float) -> void:
+func _physics_update(delta: float) -> void:
 	if casted_owner.is_on_floor():
-		if absf(casted_owner.velocity.x) >= casted_owner.RUN_SPEED_TRESHOLD:
+		if absf(casted_owner.velocity.x) >= casted_owner.run_speed_treshold:
 			finished.emit(States.RUNNING)
 		else:
 			finished.emit(States.IDLE)
@@ -23,20 +23,20 @@ func physics_update(delta: float) -> void:
 
 	var input_axis: float = Input.get_axis("move_left", "move_right")
 	casted_owner.direction = sign(input_axis) if input_axis else casted_owner.direction
-	casted_owner.velocity.x = input_axis * casted_owner.SPEED
+	casted_owner.velocity.x = input_axis * casted_owner.speed
 
 	casted_owner.move_and_slide()
 
 
-func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
+func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	if (
-		_previous_state_path == States.JUMPING
-		and casted_owner.velocity.y < casted_owner.MIN_JUMP_VELOCITY
-	): casted_owner.velocity.y = casted_owner.MIN_JUMP_VELOCITY
+		_previous_state_path.get_name(0) == States.JUMPING
+		and casted_owner.velocity.y < casted_owner.min_jump_velocity
+	): casted_owner.velocity.y = casted_owner.min_jump_velocity
 	
 	casted_owner.time_since_attack = 0.0
 	casted_owner.anim_player.play("slash1")
 
 
-func exit() -> void:
+func _exit() -> void:
 	pass

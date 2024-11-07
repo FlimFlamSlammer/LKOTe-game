@@ -1,4 +1,5 @@
 {
-	"editor.indentSize": "tabSize",
-	"editor.insertSpaces": false
+	"editor.tabSize": 4,
+	"editor.insertSpaces": false,
+	"godotTools.editorPath.godot4": "/home/lionel/Applications/godot/Godot.x86_64"
 }
