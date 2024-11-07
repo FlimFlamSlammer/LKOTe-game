@@ -1,6 +1,6 @@
 extends PlayerState
 
-func handle_input(event: InputEvent) -> void:
+func _handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("dodge"):
 		finished.emit(States.DODGING)
 	elif event.is_action_pressed("basic_attack"):
@@ -8,11 +8,11 @@ func handle_input(event: InputEvent) -> void:
 	elif event.is_action_pressed("jump"):
 		casted_owner.input_buffer = casted_owner.BufferableStates.JUMPING
 
-	if casted_owner.velocity.y < casted_owner.MIN_JUMP_VELOCITY and event.is_action_released("jump"):
-		casted_owner.velocity.y = casted_owner.MIN_JUMP_VELOCITY
+	if casted_owner.velocity.y < casted_owner.min_jump_velocity and event.is_action_released("jump"):
+		casted_owner.velocity.y = casted_owner.min_jump_velocity
 
 
-func physics_update(delta: float) -> void:
+func _physics_update(delta: float) -> void:
 	if casted_owner.velocity.y > 0:
 		finished.emit(States.FALLING)
 
@@ -20,12 +20,12 @@ func physics_update(delta: float) -> void:
 
 	var input_axis: float = Input.get_axis("move_left", "move_right")
 	casted_owner.direction = sign(input_axis) if input_axis != 0 else casted_owner.direction
-	casted_owner.velocity.x = input_axis * casted_owner.SPEED
+	casted_owner.velocity.x = input_axis * casted_owner.speed
 
 	casted_owner.move_and_slide()
 
 
-func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
+func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	if casted_owner.input_buffer == casted_owner.BufferableStates.ATTACKING:
 		finished.emit(States.AIRATTACKING)
 		casted_owner.input_buffer = casted_owner.BufferableStates.NONE
@@ -33,11 +33,11 @@ func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
 
 	# make jump height low if jump button is not currently pressed
 	casted_owner.velocity.y = (
-			casted_owner.JUMP_VELOCITY if Input.is_action_pressed("jump")
-			else casted_owner.MIN_JUMP_VELOCITY)
+			casted_owner.jump_velocity if Input.is_action_pressed("jump")
+			else casted_owner.min_jump_velocity)
 
 	casted_owner.anim_player.play("jump")
 
 
-func exit() -> void:
+func _exit() -> void:
 	pass

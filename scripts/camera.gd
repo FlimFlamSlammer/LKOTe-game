@@ -1,44 +1,51 @@
 class_name Camera
 extends Camera2D
 
-@export var decay: float = 0.8
-@export var max_offset := Vector2(100, 75)
-@export var max_roll: float = 0.1
-@export var trauma_exponent: float = 1.5
+@export var sustain: float = 0.0001
+@export var smoothness: float = 0.0000001
+@export var max_offset := Vector2(1200, 900)
+@export var trauma_exponent: float = 2.0
 
-static var trauma: float = 0.0
+@export var shift_shader_material: ShaderMaterial
+
+var trauma: float = 0.0
 var world_position: Vector2
-var target: Node2D
+var time: float = 0.0
 
-var _player: CharacterBody2D
-var _shift_shader_material: ShaderMaterial
+var _noise
+var _smoothed_trauma: float = 0.0
+
+@onready var world_scene: WorldScene = owner
+@onready var _player: Player = world_scene.get_node(WorldScene.player_path)
+@onready var target: Node2D = _player
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	_noise = preload("res://scripts/softnoise.gd").SoftNoise.new()
 	randomize()
 
-	var parent: Node = get_parent()
-	_player = parent.get_node("Player")
-	target = _player
-	_shift_shader_material = parent.get_node("CanvasLayer/Shift").material
+	for node in get_tree().get_nodes_in_group("Screenshakers"):
+		node.connect("screenshake", _add_trauma)
 
 
 func _physics_process(delta: float) -> void:
 	world_position += (target.position - world_position) * 0.1
 	position = world_position
 
-	if trauma:
-		trauma = max(trauma - decay * delta, 0)
+	if _smoothed_trauma or trauma:
+		trauma -= trauma * (1 - pow(sustain, delta))
+		_smoothed_trauma += (trauma - _smoothed_trauma) * (1 - pow(smoothness, delta))
 		shake()
+
+	time += delta * 4
 
 
 func shake() -> void:
-	var amount = pow(trauma, trauma_exponent)
-	rotation = max_roll * amount * randf_range(-1.0, 1.0)
-	offset.x = max_offset.x * amount * randf_range(-1.0, 1.0)
-	offset.y = max_offset.y * amount * randf_range(-1.0, 1.0)
+	offset.x = max_offset.x * _smoothed_trauma * _noise.perlin_noise2d(time, 64.0) * 2
+	offset.y = max_offset.y * _smoothed_trauma * _noise.perlin_noise2d(time, 128.0) * 2
 
+	#shift_shader_material.set_shader_parameter("shift", world_position - world_position.floor())
 
-	#_shift_shader_material.set_shader_parameter("shift", world_position - world_position.floor())
-
-
+func _add_trauma(amount: float):
+	if trauma < amount:
+		trauma = amount

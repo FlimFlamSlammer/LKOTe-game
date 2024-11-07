@@ -1,6 +1,6 @@
 extends PlayerState
 
-func handle_input(event: InputEvent) -> void:
+func _handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("dodge"):
 		finished.emit(States.DODGING)
 	elif event.is_action_pressed("jump"):
@@ -9,9 +9,9 @@ func handle_input(event: InputEvent) -> void:
 		finished.emit(States.ATTACKING)
 
 
-func physics_update(_delta: float) -> void:
+func _physics_update(_delta: float) -> void:
 	if casted_owner.is_on_floor():
-		if absf(casted_owner.velocity.x) > casted_owner.RUN_SPEED_TRESHOLD:
+		if absf(casted_owner.velocity.x) > casted_owner.run_speed_treshold:
 			finished.emit(States.RUNNING)
 		elif casted_owner.time_since_recover > casted_owner.recovery_length[casted_owner.combo_counter]:
 			finished.emit(States.IDLE)
@@ -20,12 +20,12 @@ func physics_update(_delta: float) -> void:
 
 	var input_axis: float = Input.get_axis("move_left", "move_right")
 	casted_owner.direction = sign(input_axis) if input_axis != 0 else casted_owner.direction
-	casted_owner.velocity.x = input_axis * casted_owner.SPEED
+	casted_owner.velocity.x = input_axis * casted_owner.speed
 
 	casted_owner.move_and_slide()
 
 
-func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
+func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	casted_owner.time_since_recover = 0.0
 
 	if casted_owner.input_buffer == casted_owner.BufferableStates.ATTACKING:
@@ -36,5 +36,5 @@ func enter(_previous_state_path: String, _data: Dictionary = {}) -> void:
 	casted_owner.anim_player.play("idle")
 
 
-func exit() -> void:
+func _exit() -> void:
 	pass
