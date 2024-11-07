@@ -28,7 +28,7 @@ func _enter(previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	var input_axis: float = Input.get_axis("move_left", "move_right")
 	casted_owner.direction = sign(input_axis) if input_axis else casted_owner.direction
 
-	casted_owner.velocity.x = casted_owner.dodge_speed * casted_owner.direction
+	casted_owner.velocity.x = casted_owner.speed * casted_owner.dodge_speed * casted_owner.direction
 	casted_owner.velocity.y = 0.0
 
 	prev_collision_layer = casted_owner.collision_layer

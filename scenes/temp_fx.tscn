@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://dbaqm321odlwp"]
+[gd_scene load_steps=17 format=3 uid="uid://dbaqm321odlwp"]
 
 [ext_resource type="Script" path="res://scripts/temp_fx.gd" id="1_dssdj"]
 [ext_resource type="Texture2D" uid="uid://ctwkgbvx0xuu2" path="res://assets/smear.png" id="2_ndo60"]
 [ext_resource type="Texture2D" uid="uid://be236jk424obx" path="res://assets/slasheffect.png" id="3_6je1n"]
+[ext_resource type="Texture2D" uid="uid://b0g25fqx63lsv" path="res://assets/shockwave.png" id="4_lg8kh"]
 
 [sub_resource type="Gradient" id="Gradient_5gusc"]
 offsets = PackedFloat32Array(0, 0.45082, 1)
@@ -181,6 +182,28 @@ _data = {
 "smear2": SubResource("Animation_fr8l5")
 }
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ot603"]
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_ve1kt"]
+min_value = 1.0
+max_value = 2.0
+_data = [Vector2(0, 2), 0.0, -2.20736, 0, 0, Vector2(1, 1), 0.135384, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_kj1yy"]
+curve = SubResource("Curve_ve1kt")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wnafg"]
+particle_flag_disable_z = true
+gravity = Vector3(0, 0, 0)
+anim_speed_min = 2.0
+anim_speed_max = 2.0
+anim_speed_curve = SubResource("CurveTexture_kj1yy")
+
 [node name="TempFX" type="Node2D"]
 z_index = 5
 script = ExtResource("1_dssdj")
@@ -205,7 +228,6 @@ position = Vector2(0, -16)
 texture = ExtResource("2_ndo60")
 hframes = 3
 vframes = 2
-frame = 3
 
 [node name="Slash" type="Sprite2D" parent="."]
 visible = false
@@ -216,5 +238,18 @@ hframes = 3
 libraries = {
 "": SubResource("AnimationLibrary_4sd1g")
 }
+
+[node name="Shockwave" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("4_lg8kh")
+hframes = 8
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+visible = false
+material = SubResource("CanvasItemMaterial_ot603")
+amount = 5
+process_material = SubResource("ParticleProcessMaterial_wnafg")
+texture = ExtResource("4_lg8kh")
+visibility_rect = Rect2(-50, -12, 105, 24)
 
 [connection signal="timeout" from="FreeTimer" to="." method="_on_free_timer_timeout"]

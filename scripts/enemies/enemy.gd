@@ -98,7 +98,7 @@ func instantiate_temp_fx(
 		effect: TempFX.Effects,
 		effect_data: int = 0,
 		sibling: bool = false,
-		fx_position: Vector2 = Vector2.ZERO) -> void:
+		fx_position: Vector2 = Vector2.ZERO) -> TempFX:
 	var new_temp_fx: TempFX = TEMP_FX.instantiate()
 	new_temp_fx.position = fx_position
 	new_temp_fx.direction = direction
@@ -108,3 +108,5 @@ func instantiate_temp_fx(
 		add_sibling(new_temp_fx)
 	else:
 		add_child(new_temp_fx)
+
+	return new_temp_fx

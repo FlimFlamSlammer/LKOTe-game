@@ -1,6 +1,6 @@
 extends EnemySubstate
 
-@export var stun_time: float = 1.0
+@export var stun_time: float = 2.0
 
 func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	casted_owner.anim_player.play("stunned")
