@@ -34,7 +34,9 @@ func _enter(previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	prev_collision_layer = casted_owner.collision_layer
 	casted_owner.collision_layer = 0
 
-	casted_owner.instantiate_temp_fx(TempFX.Effects.DODGE)
+	casted_owner.instantiate_temp_fx(TempFX.Effects.DODGE, {
+		"resource": "res://assets/3knight-dash.png"
+	})
 	casted_owner.anim_player.play("dodge")
 
 

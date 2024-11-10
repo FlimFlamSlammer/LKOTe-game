@@ -72,7 +72,9 @@ func hit_enemy(hurtbox: Area2D, data: Dictionary) -> int:
 			data.direction = direction
 			data.normal = Vector2(candidate.position.x - position.x, candidate.position.y - position.y).normalized()
 			candidate.hit(data)
-			instantiate_temp_fx(TempFX.Effects.SLASH, randi() % 2, true, candidate.position)
+			instantiate_temp_fx(TempFX.Effects.SLASH, {
+				"variant": randi() % 2
+			}, true, candidate.position)
 			hit_counter += 1
 	return hit_counter
 
@@ -89,14 +91,35 @@ func hit_enemy_with_combo() -> int:
 				knockback = knockback[combo_counter],
 				impact = impact[combo_counter],
 			})
-			instantiate_temp_fx(TempFX.Effects.SLASH, randi() % 2, true, candidate.position)
+			instantiate_temp_fx(TempFX.Effects.SLASH, {
+				"variant": randi() % 2
+			}, true, candidate.position)
 			hit_counter += 1
 	return hit_counter
 
 
+func instantiate_projectile(
+	projectile: PackedScene,
+	data: Dictionary,
+	speed_mult: float = 1.0,
+	init_position: Vector2 = position,
+	p_direction: Vector2 = Vector2(direction, 0),
+) -> Projectile:
+	var new_projectile: Projectile = projectile.instantiate()
+	new_projectile.data = data
+	new_projectile.position = init_position
+	new_projectile.p_direction = p_direction.normalized()
+	new_projectile.speed_mult = speed_mult
+
+	new_projectile.creator = self
+	new_projectile.team = Globals.Teams.ENEMIES
+
+	return new_projectile
+
+
 func instantiate_temp_fx(
 		effect: TempFX.Effects,
-		effect_data: int = 0,
+		effect_data: Dictionary = {},
 		sibling: bool = false,
 		fx_position: Vector2 = Vector2.ZERO) -> TempFX:
 	var new_temp_fx: TempFX = TEMP_FX.instantiate()

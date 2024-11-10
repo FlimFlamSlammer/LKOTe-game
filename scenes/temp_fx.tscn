@@ -239,15 +239,11 @@ libraries = {
 "": SubResource("AnimationLibrary_4sd1g")
 }
 
-[node name="Shockwave" type="Sprite2D" parent="."]
-visible = false
-texture = ExtResource("4_lg8kh")
-hframes = 8
-
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-visible = false
+[node name="Shockwave" type="GPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_ot603")
-amount = 5
+position = Vector2(-0.5, 0)
+emitting = false
+amount = 7
 process_material = SubResource("ParticleProcessMaterial_wnafg")
 texture = ExtResource("4_lg8kh")
 visibility_rect = Rect2(-50, -12, 105, 24)

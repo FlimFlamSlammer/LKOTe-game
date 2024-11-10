@@ -7,6 +7,8 @@ extends EnemySubstate
 @export var knockback: float = 12.0
 @export var impact: float = 0.2
 
+var shockwave_effect: TempFX
+
 @onready var hurtbox: Area2D = casted_owner.get_node("MiscHurtboxes").get_node("Charge")
 
 func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
@@ -14,6 +16,7 @@ func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	casted_owner.substate_timer.start(max_charge_time)
 
 	casted_owner.anim_player.play("charge")
+	shockwave_effect = casted_owner.instantiate_temp_fx(TempFX.Effects.SHOCKWAVE)
 
 
 func _physics_update(_delta: float) -> void:
@@ -37,7 +40,7 @@ func _physics_update(_delta: float) -> void:
 
 
 func _exit() -> void:
-	pass
+	shockwave_effect.finish()
 
 
 func _hit(_data: Dictionary):

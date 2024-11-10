@@ -10,7 +10,9 @@ func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	move_forward(dodge_speed)
 	set_dodging(true)
 
-	casted_owner.instantiate_temp_fx(TempFX.Effects.DODGE)
+	casted_owner.instantiate_temp_fx(TempFX.Effects.DODGE, {
+		"resource": "res://assets/3knight-dash.png"
+	})
 	casted_owner.anim_player.play("dodge")
 
 

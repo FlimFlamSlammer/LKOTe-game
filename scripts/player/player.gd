@@ -85,7 +85,7 @@ func hit_enemy() -> int:
 				stun_time = stun_time[combo_counter],
 				knockback = knockback[combo_counter],
 			})
-			instantiate_temp_fx(TempFX.Effects.SLASH, randi() % 2, true, candidate.position)
+			instantiate_temp_fx(TempFX.Effects.SLASH, {"variant": randi() % 2}, true, candidate.position)
 			hit_counter += 1
 	screenshake.emit((impact[combo_counter] + impact[combo_counter] * hit_counter * 0.3) * (hit_counter > 0 as int) + 0.015 * (hit_counter == 0 as int))
 	if hit_counter > 0:
@@ -104,7 +104,7 @@ func step_to_target(distance: int) -> void:
 
 func instantiate_temp_fx(
 		effect: TempFX.Effects,
-		effect_data: int = 0,
+		effect_data: Dictionary = {},
 		sibling: bool = false,
 		fx_position: Vector2 = Vector2.ZERO) -> void:
 	var new_temp_fx: TempFX = _temp_fx.instantiate()

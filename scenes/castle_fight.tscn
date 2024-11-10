@@ -7,7 +7,23 @@
 process_mode = 1
 
 [node name="Player" parent="." instance=ExtResource("1_kpkdi")]
-impact = Array[float]([0.02, 0.02])
+max_health = null
+stun_resistance = null
+damage_multiplier = null
+stun_time = null
+knockback = null
+combo_length = null
+recovery_length = null
+combo_damage = null
+impact = null
+speed = null
+jump_velocity = null
+combo_reset_delay = null
+dodge_speed = null
+dodge_length = null
+dodge_cooldown = null
+run_speed_treshold = null
+input_buffer_reset_delay = null
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(0, 65.58)
