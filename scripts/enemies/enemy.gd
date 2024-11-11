@@ -12,19 +12,13 @@ static var gravity: float = ProjectSettings.get_setting("physics/2d/default_grav
 @export var max_health: float = 100.0
 @export var movement_speed: float = 140.0
 
-# combo data
-@export var stun_time: Array[float] = []
-@export var knockback: Array[float] = []
-@export var combo_damage: Array[float] = []
-@export var impact: Array[float] = [] # screenshake
-
 # ranges
 @export var attack_range: float = 15.0
 @export var jump_range: float = 50.0
 @export var dodge_range: float = 30.0
 
 var combo_counter: int = 0
-var direction: int:
+var direction: int = 1:
 	set(new_dir):
 		direction = new_dir
 		scale.x = scale.y * direction
@@ -56,6 +50,7 @@ func hit(data: Dictionary) -> void:
 		if health <= 0:
 			anim_player.play("die")
 
+
 ## hit_enemy data format:
 ## {
 ##  damage,
@@ -79,44 +74,6 @@ func hit_enemy(hurtbox: Area2D, data: Dictionary) -> int:
 	return hit_counter
 
 
-func hit_enemy_with_combo() -> int:
-	var hit_counter: int = 0
-	var candidates: Array[Node2D] = hurtboxes[combo_counter].get_overlapping_bodies()
-
-	for candidate in candidates:
-		if candidate is Player:
-			candidate.hit({
-				damage = combo_damage[combo_counter] * damage_multiplier,
-				stun_time = stun_time[combo_counter],
-				knockback = knockback[combo_counter],
-				impact = impact[combo_counter],
-			})
-			instantiate_temp_fx(TempFX.Effects.SLASH, {
-				"variant": randi() % 2
-			}, true, candidate.position)
-			hit_counter += 1
-	return hit_counter
-
-
-func instantiate_projectile(
-	projectile: PackedScene,
-	data: Dictionary,
-	speed_mult: float = 1.0,
-	init_position: Vector2 = position,
-	p_direction: Vector2 = Vector2(direction, 0),
-) -> Projectile:
-	var new_projectile: Projectile = projectile.instantiate()
-	new_projectile.data = data
-	new_projectile.position = init_position
-	new_projectile.p_direction = p_direction.normalized()
-	new_projectile.speed_mult = speed_mult
-
-	new_projectile.creator = self
-	new_projectile.team = Globals.Teams.ENEMIES
-
-	return new_projectile
-
-
 func instantiate_temp_fx(
 		effect: TempFX.Effects,
 		effect_data: Dictionary = {},
@@ -133,3 +90,24 @@ func instantiate_temp_fx(
 		add_child(new_temp_fx)
 
 	return new_temp_fx
+
+
+func _instantiate_projectile(
+	projectile: PackedScene,
+	data: Dictionary,
+	speed_mult: float = 1.0,
+	init_position: Vector2 = position,
+	p_direction: Vector2 = Vector2(direction, 0),
+) -> Projectile:
+	var new_projectile: Projectile = projectile.instantiate()
+	new_projectile.data = data
+	new_projectile.position = init_position
+	new_projectile.p_direction = p_direction.normalized()
+	new_projectile.speed_mult = speed_mult
+
+	new_projectile.creator = self
+	new_projectile.team = Globals.Teams.ENEMIES
+
+	add_sibling(new_projectile)
+
+	return new_projectile

@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://wd0qi6udo62p"]
+
+[node name="Projectile" type="Area2D"]
+collision_layer = 0
+collision_mask = 7
+monitorable = false
+
+[node name="Sprite" type="Sprite2D" parent="."]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+autostart = true

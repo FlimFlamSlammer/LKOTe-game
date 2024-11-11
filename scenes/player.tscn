@@ -248,25 +248,9 @@ size = Vector2(16, 32)
 position = Vector2(1, 0)
 collision_layer = 4
 script = ExtResource("1_0chp3")
-max_health = null
-stun_resistance = null
-damage_multiplier = null
-stun_time = null
-knockback = null
-combo_length = null
-recovery_length = null
-combo_damage = null
 impact = Array[float]([0.11, 0.11])
 attack_hitstop_multiplier = 0.3
 hit_hitstop_multiplier = 0.6
-speed = null
-jump_velocity = null
-combo_reset_delay = null
-dodge_speed = null
-dodge_length = null
-dodge_cooldown = null
-run_speed_treshold = null
-input_buffer_reset_delay = null
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

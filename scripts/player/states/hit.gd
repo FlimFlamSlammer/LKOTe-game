@@ -21,7 +21,7 @@ func _physics_update(delta: float) -> void:
 			casted_owner.velocity.x = 0
 
 	casted_owner.velocity.y += casted_owner.gravity * delta
-	
+
 	casted_owner.move_and_slide()
 
 	if casted_owner.time_until_recover <= 0.0:
@@ -48,7 +48,7 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	casted_owner.direction = -direction
 
 	aerial = not casted_owner.is_on_floor()
-	
+
 	if not aerial:
 		knockback_time = minf(stun_time, Globals.MAX_KNOCKBACK_TIME)
 		knockback_velocity = knockback / knockback_time * direction

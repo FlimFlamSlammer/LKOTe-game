@@ -72,6 +72,7 @@ move_right={
 
 common/physics_ticks_per_second=72
 2d/default_gravity=550.0
+common/physics_interpolation=true
 
 [rendering]
 

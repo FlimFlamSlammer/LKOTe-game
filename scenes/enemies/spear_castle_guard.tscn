@@ -240,7 +240,7 @@ target_position = Vector2(18, 0)
 [node name="Charge" parent="MiscHurtboxes" instance=ExtResource("3_81f3c")]
 
 [node name="Hurtbox" parent="MiscHurtboxes/Charge" index="0"]
-polygon = PackedVector2Array(22, 1, 29, 0, 22, -1)
+polygon = PackedVector2Array(11, 5, 20, 4, 20, 3, 11, 2)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 offset_left = -44.0
