@@ -46,5 +46,6 @@ func _set_state(
 		substate._enter(previous_state_path, data)
 
 
+## Called when [code]_set_state[/code] is called with the [code]"Finished"[/code] param.
 func _finish(_data: Dictionary) -> void:
 	pass

@@ -13,10 +13,12 @@ var shockwave_effect: TempFX
 
 func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	look_towards_target(true)
-	casted_owner.substate_timer.start(max_charge_time)
 
 	casted_owner.anim_player.play("charge")
 	shockwave_effect = casted_owner.instantiate_temp_fx(TempFX.Effects.SHOCKWAVE)
+
+	casted_owner.substate_timer.start(max_charge_time)
+	casted_owner.substate_timer.connect("timeout", finished.emit.bind("Recovering"))
 
 
 func _physics_update(_delta: float) -> void:
@@ -24,10 +26,8 @@ func _physics_update(_delta: float) -> void:
 	apply_gravity()
 
 	casted_owner.move_and_slide()
-
-	if casted_owner.substate_timer.is_stopped():
-		finished.emit("Recovering")
-	elif casted_owner.hit_enemy(hurtbox, {
+		
+	if casted_owner.hit_enemy(hurtbox, {
 		"damage": damage,
 		"stun_time": stun_time,
 		"knockback": knockback,

@@ -23,9 +23,8 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	direction = data.direction
 
 	casted_owner.direction = -direction
-	casted_owner.substate_timer.start(stun_time)
+
 	aerial = not casted_owner.is_on_floor()
-	
 	if not aerial:
 		knockback_time = minf(stun_time, Globals.MAX_KNOCKBACK_TIME)
 		knockback_velocity = knockback / knockback_time * direction
@@ -33,6 +32,9 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	else:
 		casted_owner.velocity.x = knockback * direction * Globals.AERIAL_KNOCKBACK_MULT
 		casted_owner.velocity.y = knockback * data.normal.y * Globals.AERIAL_KNOCKBACK_MULT
+
+	casted_owner.substate_timer.start(stun_time)
+	casted_owner.substate_timer.connect("timeout", _finished)
 
 
 func _physics_update(delta: float) -> void:
@@ -47,9 +49,6 @@ func _physics_update(delta: float) -> void:
 	casted_owner.velocity.y += casted_owner.gravity * delta
 	
 	casted_owner.move_and_slide()
-
-	if casted_owner.substate_timer.is_stopped():
-		_finished()
 
 
 func _finished() -> void:
