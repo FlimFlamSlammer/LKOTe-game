@@ -34,10 +34,10 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 		casted_owner.velocity.y = knockback * data.normal.y * Globals.AERIAL_KNOCKBACK_MULT
 
 	casted_owner.substate_timer.start(stun_time)
-	casted_owner.substate_timer.connect("timeout", _finished)
+	casted_owner.substate_timer.timeout.connect(_finish)
 
 
-func _physics_update(delta: float) -> void:
+func _update(delta: float) -> void:
 	if aerial:
 		if casted_owner.is_on_floor():
 			casted_owner.velocity.x = 0
@@ -47,9 +47,17 @@ func _physics_update(delta: float) -> void:
 			casted_owner.velocity.x = 0
 
 	casted_owner.velocity.y += casted_owner.gravity * delta
-	
+
 	casted_owner.move_and_slide()
 
 
-func _finished() -> void:
-	pass
+func _exit() -> void:
+	casted_owner.substate_timer.timeout.disconnect(_finish)
+
+
+func _finish() -> void:
+	finished.emit("Finished")
+
+
+func _hit(data: Dictionary) -> void:
+	finished.emit("Hit", data)

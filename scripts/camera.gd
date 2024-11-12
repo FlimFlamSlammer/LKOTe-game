@@ -1,8 +1,10 @@
 class_name Camera
 extends Camera2D
 
-@export var sustain: float = 0.0001
-@export var smoothness: float = 0.0000001
+@export var smoothness: float = 0.001
+
+@export var shake_sustain: float = 0.0001
+@export var shake_smoothness: float = 0.0000001
 @export var max_offset := Vector2(1200, 900)
 @export var trauma_exponent: float = 2.0
 
@@ -28,13 +30,13 @@ func _ready() -> void:
 		node.connect("screenshake", _add_trauma)
 
 
-func _physics_process(delta: float) -> void:
-	world_position += (target.position - world_position) * 0.1
+func _process(delta: float) -> void:
+	world_position += (target.position - world_position) * (1 - pow(smoothness, delta))
 	position = world_position
 
 	if _smoothed_trauma or trauma:
-		trauma -= trauma * (1 - pow(sustain, delta))
-		_smoothed_trauma += (trauma - _smoothed_trauma) * (1 - pow(smoothness, delta))
+		trauma -= trauma * (1 - pow(shake_sustain, delta))
+		_smoothed_trauma += (trauma - _smoothed_trauma) * (1 - pow(shake_smoothness, delta))
 		shake()
 
 	time += delta * 4

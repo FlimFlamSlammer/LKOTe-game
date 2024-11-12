@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://nk57keysmejs"]
 
 [ext_resource type="PackedScene" uid="uid://bfeupkcec0b4q" path="res://scenes/player.tscn" id="1_kpkdi"]
+[ext_resource type="PackedScene" uid="uid://bumd61lymcuux" path="res://scenes/enemies/spear_castle_guard.tscn" id="3_ehaos"]
 [ext_resource type="PackedScene" uid="uid://bkwkq5rruh82g" path="res://scenes/projectiles/arrow.tscn" id="3_vmixj"]
-[ext_resource type="PackedScene" uid="uid://7ybkgftc64cb" path="res://scenes/enemies/cyprus_wood_hat.tscn" id="4_4d1hs"]
 
 [node name="Level" type="Node2D"]
 process_mode = 1
@@ -46,7 +46,6 @@ polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
 [node name="Arrow" parent="." instance=ExtResource("3_vmixj")]
 position = Vector2(90, 217)
-ray_cast_offset = null
 
-[node name="Cyrus" parent="." instance=ExtResource("4_4d1hs")]
-position = Vector2(380, 242)
+[node name="CharacterBody2D2" parent="." instance=ExtResource("3_ehaos")]
+position = Vector2(255, 238)

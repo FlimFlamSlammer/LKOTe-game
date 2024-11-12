@@ -12,7 +12,7 @@
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/defending_substates/running.gd" id="9_5xk3j"]
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/attacking_substates/stunned.gd" id="9_27fqh"]
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/defending_substates/falling.gd" id="10_btbho"]
-[ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/attacking_substates/hit.gd" id="10_t0xsq"]
+[ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/shared_substates/hit.gd" id="10_j442k"]
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/states/idle.gd" id="11_qxp8w"]
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/idle_substates/idle.gd" id="12_gaa75"]
 [ext_resource type="Script" path="res://scripts/enemies/spear_castle_guard/defending_substates/dodging.gd" id="12_msc0o"]
@@ -57,25 +57,14 @@ step = 0.0166667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath("Sprite2D:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.0166667, 0.133333),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [16, 17, 16]
-}
-tracks/1/type = "method"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(),
-"transitions": PackedFloat32Array(),
-"values": []
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_16two"]
@@ -249,6 +238,19 @@ offset_right = 43.0
 offset_bottom = -18.0
 text = "Spear"
 
+[node name="DodgeCooldown" type="Timer" parent="."]
+process_callback = 0
+wait_time = 0.6
+one_shot = true
+
+[node name="SubstateTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="StateTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
 [node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("4_y2svc")
 initial_state = NodePath("Idle")
@@ -272,7 +274,7 @@ script = ExtResource("8_gx5ho")
 script = ExtResource("9_27fqh")
 
 [node name="Hit" type="Node" parent="StateMachine/Attacking"]
-script = ExtResource("10_t0xsq")
+script = ExtResource("10_j442k")
 
 [node name="Defending" type="Node" parent="StateMachine" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("7_fnr17")
@@ -287,6 +289,9 @@ script = ExtResource("9_5xk3j")
 [node name="Falling" type="Node" parent="StateMachine/Defending"]
 script = ExtResource("10_btbho")
 
+[node name="Hit" type="Node" parent="StateMachine/Defending"]
+script = ExtResource("10_j442k")
+
 [node name="Idle" type="Node" parent="StateMachine" node_paths=PackedStringArray("initial_state")]
 script = ExtResource("11_qxp8w")
 initial_state = NodePath("Idle")
@@ -297,17 +302,7 @@ script = ExtResource("12_gaa75")
 [node name="Falling" type="Node" parent="StateMachine/Idle"]
 script = ExtResource("14_xehca")
 
-[node name="DodgeCooldown" type="Timer" parent="."]
-process_callback = 0
-wait_time = 0.6
-one_shot = true
-
-[node name="SubstateTimer" type="Timer" parent="."]
-process_callback = 0
-one_shot = true
-
-[node name="StateTimer" type="Timer" parent="."]
-process_callback = 0
-one_shot = true
+[node name="Hit" type="Node" parent="StateMachine/Idle"]
+script = ExtResource("10_j442k")
 
 [editable path="MiscHurtboxes/Charge"]

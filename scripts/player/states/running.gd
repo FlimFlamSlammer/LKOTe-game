@@ -9,7 +9,7 @@ func _handle_input(event: InputEvent) -> void:
 		finished.emit(States.ATTACKING)
 
 
-func _physics_update(_delta: float) -> void:
+func _update(_delta: float) -> void:
 	if casted_owner.is_on_floor():
 		if absf(casted_owner.velocity.x) < casted_owner.run_speed_treshold:
 			finished.emit(States.IDLE)

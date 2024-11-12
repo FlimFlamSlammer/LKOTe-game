@@ -58,7 +58,7 @@ var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 @onready var hurtboxes: Array[Node] = $Hurtboxes.get_children()
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	time_since_dodge += delta
 	time_since_recover += delta
 	time_since_attack += delta
@@ -106,7 +106,7 @@ func instantiate_temp_fx(
 		effect: TempFX.Effects,
 		effect_data: Dictionary = {},
 		sibling: bool = false,
-		fx_position: Vector2 = Vector2.ZERO) -> void:
+		fx_position: Vector2 = Vector2.ZERO) -> TempFX:
 	var new_temp_fx: TempFX = _temp_fx.instantiate()
 	new_temp_fx.position = fx_position
 	new_temp_fx.direction = direction
@@ -116,6 +116,8 @@ func instantiate_temp_fx(
 		add_sibling(new_temp_fx)
 	else:
 		add_child(new_temp_fx)
+
+	return new_temp_fx
 
 
 func _get_target(ray_cast: RayCast2D) -> Enemy:

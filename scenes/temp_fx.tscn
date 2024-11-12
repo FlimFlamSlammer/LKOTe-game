@@ -205,6 +205,7 @@ anim_speed_max = 2.0
 anim_speed_curve = SubResource("CurveTexture_kj1yy")
 
 [node name="TempFX" type="Node2D"]
+physics_interpolation_mode = 2
 z_index = 5
 script = ExtResource("1_dssdj")
 
@@ -213,7 +214,7 @@ position = Vector2(0, -16)
 emitting = false
 amount = 3
 process_material = SubResource("ParticleProcessMaterial_xqfad")
-lifetime = 0.2
+lifetime = 0.3
 one_shot = true
 explosiveness = 0.25
 interpolate = false
@@ -246,6 +247,8 @@ emitting = false
 amount = 7
 process_material = SubResource("ParticleProcessMaterial_wnafg")
 texture = ExtResource("4_lg8kh")
-visibility_rect = Rect2(-50, -12, 105, 24)
+interpolate = false
+fract_delta = false
+visibility_rect = Rect2(-511.5, -12, 1024, 24)
 
 [connection signal="timeout" from="FreeTimer" to="." method="_on_free_timer_timeout"]

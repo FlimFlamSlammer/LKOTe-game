@@ -12,7 +12,7 @@ func _handle_input(event: InputEvent) -> void:
 		casted_owner.velocity.y = casted_owner.min_jump_velocity
 
 
-func _physics_update(delta: float) -> void:
+func _update(delta: float) -> void:
 	if casted_owner.velocity.y > 0:
 		finished.emit(States.FALLING)
 

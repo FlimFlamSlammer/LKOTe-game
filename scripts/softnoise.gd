@@ -126,7 +126,7 @@ class SoftNoise:
 
 	#---------NOISE-----------------------------------------------------
 	func value_noise2d(x: float, y: float) -> float:
-		var source = []
+		var _source = []
 		var floor_x = x
 		var floor_y = y
 

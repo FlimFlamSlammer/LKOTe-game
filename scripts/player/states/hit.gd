@@ -11,7 +11,7 @@ func _handle_input(_event: InputEvent) -> void:
 	pass
 
 
-func _physics_update(delta: float) -> void:
+func _update(delta: float) -> void:
 	if aerial:
 		if casted_owner.is_on_floor():
 			casted_owner.velocity.x = 0

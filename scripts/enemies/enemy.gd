@@ -3,8 +3,6 @@ extends CharacterBody2D
 
 signal screenshake(amount: float)
 
-const TEMP_FX: PackedScene = preload("res://scenes/temp_fx.tscn")
-
 static var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var stun_resistance: float = 1.0
@@ -24,6 +22,8 @@ var direction: int = 1:
 		scale.x = scale.y * direction
 
 var hittable: bool = true
+
+var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 
 @onready var health: float = max_health
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
@@ -79,7 +79,7 @@ func instantiate_temp_fx(
 		effect_data: Dictionary = {},
 		sibling: bool = false,
 		fx_position: Vector2 = Vector2.ZERO) -> TempFX:
-	var new_temp_fx: TempFX = TEMP_FX.instantiate()
+	var new_temp_fx: TempFX = _temp_fx.instantiate()
 	new_temp_fx.position = fx_position
 	new_temp_fx.direction = direction
 	new_temp_fx.effect = effect

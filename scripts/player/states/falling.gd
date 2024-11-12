@@ -9,7 +9,7 @@ func _handle_input(event: InputEvent) -> void:
 		casted_owner.input_buffer = casted_owner.BufferableStates.JUMPING
 
 
-func _physics_update(delta: float) -> void:
+func _update(delta: float) -> void:
 	casted_owner.velocity.y += casted_owner.gravity * delta
 
 	var input_axis: float = Input.get_axis("move_left", "move_right")

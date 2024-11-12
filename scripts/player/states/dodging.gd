@@ -9,7 +9,7 @@ func _handle_input(event: InputEvent) -> void:
 		casted_owner.input_buffer = casted_owner.BufferableStates.ATTACKING
 
 
-func _physics_update(_delta: float) -> void:
+func _update(_delta: float) -> void:
 	if casted_owner.time_since_dodge > casted_owner.dodge_length:
 		if casted_owner.is_on_floor():
 			finished.emit(States.RUNNING)

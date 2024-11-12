@@ -18,15 +18,15 @@ func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	shockwave_effect = casted_owner.instantiate_temp_fx(TempFX.Effects.SHOCKWAVE)
 
 	casted_owner.substate_timer.start(max_charge_time)
-	casted_owner.substate_timer.connect("timeout", finished.emit.bind("Recovering"))
+	casted_owner.substate_timer.timeout.connect(_finish)
 
 
-func _physics_update(_delta: float) -> void:
+func _update(_delta: float) -> void:
 	move_forward(charge_speed)
 	apply_gravity()
 
 	casted_owner.move_and_slide()
-		
+
 	if casted_owner.hit_enemy(hurtbox, {
 		"damage": damage,
 		"stun_time": stun_time,
@@ -41,7 +41,12 @@ func _physics_update(_delta: float) -> void:
 
 func _exit() -> void:
 	shockwave_effect.finish()
+	casted_owner.substate_timer.timeout.disconnect(_finish)
 
 
 func _hit(_data: Dictionary):
 	finished.emit("Stunned")
+
+
+func _finish() -> void:
+	finished.emit.bind("Recovering")

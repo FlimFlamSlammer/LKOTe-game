@@ -5,21 +5,17 @@ extends EnemySubstate
 func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	casted_owner.anim_player.play("recovery")
 	casted_owner.substate_timer.start(recovery_time)
-	casted_owner.substate_timer.connect("timeout", _on_substate_timer_timeout)
+	casted_owner.substate_timer.timeout.connect(_finish)
 
 
-func _physics_update(_delta: float) -> void:
+func _update(_delta: float) -> void:
 	pass
 
 
 func _exit() -> void:
-	pass
+	casted_owner.substate_timer.timeout.disconnect(_finish)
 
 
-func _hit(data: Dictionary):
-	finished.emit("Hit", data)
-
-
-func _on_substate_timer_timeout():
+func _finish():
 	look_towards_target(false)
 	finished.emit("Finished")

@@ -13,13 +13,15 @@ func _ready() -> void:
 	state._enter("")
 
 
+func _process(delta: float) -> void:
+	state._update(delta)
+
+
 func _physics_process(delta: float) -> void:
 	state._physics_update(delta)
 
 
 func _set_state(next_state_path: NodePath, data: Dictionary = {}, resume: bool = false) -> void:
-	state.substate._exit()
-
 	var previous_state_path: NodePath = get_path_to(state)
 	state._exit()
 	state = get_node_or_null(str(next_state_path.get_name(0)))

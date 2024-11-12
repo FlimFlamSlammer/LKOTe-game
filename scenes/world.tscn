@@ -20,7 +20,6 @@ script = ExtResource("3_ooncp")
 shift_shader_material = ExtResource("4_653yf")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
 
 [node name="Shift" type="ColorRect" parent="CanvasLayer"]
 material = ExtResource("4_653yf")

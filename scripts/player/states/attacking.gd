@@ -10,7 +10,7 @@ func _handle_input(event: InputEvent) -> void:
 
 
 
-func _physics_update(delta: float) -> void:
+func _update(delta: float) -> void:
 	casted_owner.velocity.x = 0
 
 	if casted_owner.is_on_floor():

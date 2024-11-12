@@ -8,7 +8,7 @@ func _physics_update(delta: float) -> void:
 	super(delta)
 
 
-func _finished() -> void:
+func _finish() -> void:
 	finished.emit("Running")
 
 
