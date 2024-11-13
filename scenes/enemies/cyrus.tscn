@@ -1,6 +1,6 @@
 [gd_scene load_steps=23 format=3 uid="uid://7ybkgftc64cb"]
 
-[ext_resource type="Script" path="res://scripts/enemies/cyrus/cyrus_wood_hat.gd" id="1_tn72u"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/cyrus.gd" id="1_6mjfu"]
 [ext_resource type="PackedScene" uid="uid://bkwkq5rruh82g" path="res://scenes/projectiles/arrow.tscn" id="2_qijf8"]
 [ext_resource type="Texture2D" uid="uid://d04xmjhfat8yi" path="res://assets/cyrus-sheet.png" id="3_j4dsp"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_template/state_machine.gd" id="4_3kqwm"]
@@ -175,10 +175,10 @@ tracks/0/path = NodePath("Sprite2D:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
 "update": 1,
-"values": [Vector2i(0, 6), Vector2i(1, 6), Vector2i(2, 6)]
+"values": []
 }
 
 [sub_resource type="Animation" id="Animation_hy26t"]
@@ -249,11 +249,11 @@ size = Vector2(16, 32)
 
 [node name="Cyrus" type="CharacterBody2D" groups=["Camera Impactors", "Enemies", "Screenshakers"]]
 collision_layer = 2
-script = ExtResource("1_tn72u")
+script = ExtResource("1_6mjfu")
 arrow = ExtResource("2_qijf8")
 arrow_knockback = 3.0
 arrow_impact = 0.01
-max_health = 1000.0
+max_health = 300.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -330,3 +330,4 @@ script = ExtResource("9_cjloh")
 
 [node name="Hit" type="Node" parent="StateMachine/Phase1"]
 script = ExtResource("10_qbwgr")
+stun_multiplier = 0.1

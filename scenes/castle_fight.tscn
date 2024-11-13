@@ -14,37 +14,37 @@ boss = ExtResource("3_bc621")
 position = Vector2(100, 240)
 impact = Array[float]([0.02, 0.02])
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="Floor" type="StaticBody2D" parent="."]
 position = Vector2(0, 65.58)
 scale = Vector2(3.10937, 3.10937)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Floor"]
 position = Vector2(-112.885, -122.211)
-scale = Vector2(0.321608, 0.321608)
+scale = Vector2(100, 0.322)
 polygon = PackedVector2Array(-34, 578, 1173, 578, 1171, 679, -26, 679)
 
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
+[node name="Polygon2D" type="Polygon2D" parent="Floor"]
 position = Vector2(-413.308, -122.211)
-scale = Vector2(1.04876, 0.321608)
+scale = Vector2(100, 0.322)
 color = Color(1, 0.466667, 0.254902, 1)
 polygon = PackedVector2Array(-34, 578, 1173, 578, 1172.05, 625.941, 1171, 679, -26, 679)
 
-[node name="StaticBody2D4" type="StaticBody2D" parent="."]
+[node name="Wall" type="StaticBody2D" parent="." groups=["Walls"]]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D4"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall"]
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D4"]
+[node name="Polygon2D" type="Polygon2D" parent="Wall"]
 color = Color(0.492188, 0.244171, 0.244171, 1)
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="StaticBody2D3" type="StaticBody2D" parent="."]
+[node name="Wall1" type="StaticBody2D" parent="." groups=["Walls"]]
 position = Vector2(553.785, 0)
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D3"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Wall1"]
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D3"]
+[node name="Polygon2D" type="Polygon2D" parent="Wall1"]
 color = Color(0.492188, 0.244171, 0.244171, 1)
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 

@@ -17,12 +17,12 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	casted_owner.anim_player.play("hit")
 	casted_owner.anim_player.advance(0)
 
-	casted_owner.health -= data.damage
+	casted_owner.health -= data.damage * damage_multiplier
 	if (casted_owner.health <= 0):
 		casted_owner.queue_free()
 
-	stun_time = data.stun_time
-	knockback = data.knockback
+	stun_time = data.stun_time * stun_multiplier
+	knockback = data.knockback * knockback_multiplier
 	direction = data.direction
 
 	casted_owner.direction = -direction
@@ -56,6 +56,7 @@ func _update(delta: float) -> void:
 
 func _exit() -> void:
 	casted_owner.substate_timer.timeout.disconnect(_finish)
+	print('boom')
 
 
 func _finish() -> void:
