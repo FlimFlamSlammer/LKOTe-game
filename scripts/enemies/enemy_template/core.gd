@@ -68,8 +68,8 @@ func look_towards_target(look_towards: bool) -> void: #
 
 
 ## Applies gravity to the [Enemy]'s velocity.
-func apply_gravity() -> void:
-	casted_owner.velocity.y += casted_owner.gravity
+func apply_gravity(delta: float) -> void:
+	casted_owner.velocity.y += casted_owner.gravity * delta
 
 
 ## Applies forward velocity to the [Enemy] based on its movement speed.

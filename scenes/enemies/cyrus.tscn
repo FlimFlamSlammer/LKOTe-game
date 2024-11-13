@@ -1,8 +1,15 @@
-[gd_scene load_steps=15 format=3 uid="uid://7ybkgftc64cb"]
+[gd_scene load_steps=23 format=3 uid="uid://7ybkgftc64cb"]
 
-[ext_resource type="Script" path="res://scripts/enemies/cyrus_wood_hat/cyrus_wood_hat.gd" id="1_tlhpk"]
-[ext_resource type="PackedScene" uid="uid://bkwkq5rruh82g" path="res://scenes/projectiles/arrow.tscn" id="2_e851j"]
-[ext_resource type="Texture2D" uid="uid://b8s6vxvvmeio6" path="res://assets/knight-sheet.png" id="2_hb8mk"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/cyrus_wood_hat.gd" id="1_tn72u"]
+[ext_resource type="PackedScene" uid="uid://bkwkq5rruh82g" path="res://scenes/projectiles/arrow.tscn" id="2_qijf8"]
+[ext_resource type="Texture2D" uid="uid://d04xmjhfat8yi" path="res://assets/cyrus-sheet.png" id="3_j4dsp"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_template/state_machine.gd" id="4_3kqwm"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/state/phase1.gd" id="5_edewm"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/phase1/attacking.gd" id="6_3q2dd"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/phase1/backflipping.gd" id="7_b1tpo"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/phase1/skidding.gd" id="8_hxw3k"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/phase1/backflip_windup.gd" id="9_cjloh"]
+[ext_resource type="Script" path="res://scripts/enemies/cyrus/hit.gd" id="10_qbwgr"]
 
 [sub_resource type="Animation" id="Animation_f18bo"]
 length = 0.001
@@ -33,33 +40,32 @@ tracks/1/keys = {
 
 [sub_resource type="Animation" id="Animation_ospc6"]
 resource_name = "attack1"
-length = 0.35
-step = 0.0166667
-tracks/0/type = "value"
+length = 0.75
+tracks/0/type = "method"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/path = NodePath(".")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.25, 0.3, 0.35),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
-"update": 1,
-"values": [9, 10, 11, 12, 13]
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [Vector2(4, -4)],
+"method": &"instantiate_arrow"
+}]
 }
-tracks/1/type = "method"
+tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".")
+tracks/1/path = NodePath("Sprite2D:frame_coords")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.15),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [Vector2(1, 0)],
-"method": &"instantiate_arrow"
-}]
+"times": PackedFloat32Array(0, 0.166667, 0.266667, 0.333333, 0.6, 0.666667, 0.733333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(5, 0), Vector2i(6, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_qno5n"]
@@ -97,6 +103,21 @@ tracks/1/keys = {
 "args": [],
 "method": &"hit_enemy"
 }]
+}
+
+[sub_resource type="Animation" id="Animation_0ly4h"]
+resource_name = "backflip"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.1, 0.2, 0.233333, 0.266667, 0.333333, 0.4, 0.466667, 0.533333, 0.6, 0.666667, 0.733333, 0.8, 0.866667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1), Vector2i(6, 1), Vector2i(7, 1), Vector2i(8, 1), Vector2i(9, 1), Vector2i(10, 1), Vector2i(11, 1), Vector2i(12, 1), Vector2i(13, 1), Vector2i(14, 1), Vector2i(15, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_ny8pe"]
@@ -214,6 +235,7 @@ _data = {
 "RESET": SubResource("Animation_f18bo"),
 "attack1": SubResource("Animation_ospc6"),
 "attack2": SubResource("Animation_qno5n"),
+"backflip": SubResource("Animation_0ly4h"),
 "dodge": SubResource("Animation_ny8pe"),
 "fall": SubResource("Animation_16two"),
 "hit": SubResource("Animation_qf6k7"),
@@ -227,10 +249,11 @@ size = Vector2(16, 32)
 
 [node name="Cyrus" type="CharacterBody2D" groups=["Camera Impactors", "Enemies", "Screenshakers"]]
 collision_layer = 2
-script = ExtResource("1_tlhpk")
-arrow = ExtResource("2_e851j")
+script = ExtResource("1_tn72u")
+arrow = ExtResource("2_qijf8")
 arrow_knockback = 3.0
 arrow_impact = 0.01
+max_health = 1000.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -239,10 +262,10 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
-texture = ExtResource("2_hb8mk")
-hframes = 8
-vframes = 7
-frame = 8
+texture = ExtResource("3_j4dsp")
+hframes = 16
+vframes = 2
+frame = 16
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_wtoqq")
@@ -275,11 +298,35 @@ rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-17, 6.00004, -11, -7.99997, -1.00004, -16, 16, -15, 7.00001, 2.99998, -8.99996, 14)
 
-[node name="StateTree" type="Node" parent="."]
+[node name="SubstateTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = -44.0
-offset_top = -88.0
-offset_right = 43.0
-offset_bottom = -18.0
-text = "This is an enemy"
+[node name="StateTimer" type="Timer" parent="."]
+process_callback = 0
+one_shot = true
+
+[node name="StateMachine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_3kqwm")
+initial_state = NodePath("Phase1")
+
+[node name="Phase1" type="Node" parent="StateMachine" node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_edewm")
+initial_state = NodePath("Attacking")
+
+[node name="Attacking" type="Node" parent="StateMachine/Phase1"]
+script = ExtResource("6_3q2dd")
+
+[node name="Backflipping" type="Node" parent="StateMachine/Phase1"]
+script = ExtResource("7_b1tpo")
+jump_velocity = null
+backflip_speed = null
+
+[node name="Skidding" type="Node" parent="StateMachine/Phase1"]
+script = ExtResource("8_hxw3k")
+
+[node name="BackflipWindup" type="Node" parent="StateMachine/Phase1"]
+script = ExtResource("9_cjloh")
+
+[node name="Hit" type="Node" parent="StateMachine/Phase1"]
+script = ExtResource("10_qbwgr")

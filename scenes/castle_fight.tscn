@@ -1,13 +1,17 @@
-[gd_scene load_steps=4 format=3 uid="uid://nk57keysmejs"]
+[gd_scene load_steps=5 format=3 uid="uid://nk57keysmejs"]
 
+[ext_resource type="Script" path="res://scenes/castle_fight.gd" id="1_f81o5"]
 [ext_resource type="PackedScene" uid="uid://bfeupkcec0b4q" path="res://scenes/player.tscn" id="1_kpkdi"]
+[ext_resource type="PackedScene" uid="uid://7ybkgftc64cb" path="res://scenes/enemies/cyrus.tscn" id="3_bc621"]
 [ext_resource type="PackedScene" uid="uid://bumd61lymcuux" path="res://scenes/enemies/spear_castle_guard.tscn" id="3_ehaos"]
-[ext_resource type="PackedScene" uid="uid://bkwkq5rruh82g" path="res://scenes/projectiles/arrow.tscn" id="3_vmixj"]
 
 [node name="Level" type="Node2D"]
 process_mode = 1
+script = ExtResource("1_f81o5")
+boss = ExtResource("3_bc621")
 
 [node name="Player" parent="." instance=ExtResource("1_kpkdi")]
+position = Vector2(100, 240)
 impact = Array[float]([0.02, 0.02])
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -20,17 +24,17 @@ scale = Vector2(0.321608, 0.321608)
 polygon = PackedVector2Array(-34, 578, 1173, 578, 1171, 679, -26, 679)
 
 [node name="Polygon2D" type="Polygon2D" parent="StaticBody2D"]
-position = Vector2(-112.241, -122.211)
-scale = Vector2(0.321608, 0.321608)
+position = Vector2(-413.308, -122.211)
+scale = Vector2(1.04876, 0.321608)
 color = Color(1, 0.466667, 0.254902, 1)
-polygon = PackedVector2Array(-34, 578, 1173, 578, 1171, 679, -26, 679)
+polygon = PackedVector2Array(-34, 578, 1173, 578, 1172.05, 625.941, 1171, 679, -26, 679)
 
-[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+[node name="StaticBody2D4" type="StaticBody2D" parent="."]
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D2"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D4"]
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D2"]
+[node name="Polygon2D" type="Polygon2D" parent="StaticBody2D4"]
 color = Color(0.492188, 0.244171, 0.244171, 1)
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
@@ -44,8 +48,8 @@ polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 color = Color(0.492188, 0.244171, 0.244171, 1)
 polygon = PackedVector2Array(50, 291, 50, 35, -26, 34, -21, 294)
 
-[node name="Arrow" parent="." instance=ExtResource("3_vmixj")]
-position = Vector2(90, 217)
+[node name="CharacterBody2D" parent="." instance=ExtResource("3_ehaos")]
+position = Vector2(363, 238)
 
 [node name="CharacterBody2D2" parent="." instance=ExtResource("3_ehaos")]
-position = Vector2(255, 238)
+position = Vector2(282, 240)

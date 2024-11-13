@@ -1,3 +1,4 @@
+class_name Cyrus
 extends Enemy
 
 # projectile stats
@@ -8,9 +9,14 @@ extends Enemy
 @export var arrow_stun_time: float = 0.1
 @export var arrow_impact: float = 0.1
 
+@onready var dodge_cooldown: Timer = $DodgeCooldown
+@onready var substate_timer: Timer = $SubstateTimer
+@onready var state_timer: Timer = $StateTimer
+
 
 func instantiate_arrow(
-	p_direction: Vector2 = Vector2(direction, 0)
+	offset: Vector2 = Vector2.ZERO,
+	p_direction: Vector2 = Vector2(1, 0)
 ) -> void:
 	_instantiate_projectile(
 		arrow,
@@ -21,10 +27,6 @@ func instantiate_arrow(
 			"impact": arrow_impact
 		},
 		arrow_speed,
-		position,
+		position + Vector2(offset.x * direction, offset.y),
 		Vector2(p_direction.x * direction, p_direction.y)
 	)
-
-
-func _physics_process(delta: float) -> void:
-	anim_player.play("attack1")

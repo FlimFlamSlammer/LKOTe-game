@@ -1,11 +1,9 @@
 class_name WorldScene
 extends Node2D
 
-static var player_path: NodePath = "Level/Player"
+static var player_path: NodePath = "/root/World/Level/Player"
 
 @onready var _hitstop_timer: Timer = $HitstopTimer
-
-#@onready var _player = get_node(player_path)
 
 func _ready() -> void:
 	for node in get_tree().get_nodes_in_group("Hitstoppers"):
@@ -18,5 +16,4 @@ func _set_paused(paused: bool) -> void:
 
 func _hitstop(time: float) -> void:
 	_set_paused(true)
-	_hitstop_timer.wait_time = time
-	_hitstop_timer.start()
+	_hitstop_timer.start(time)

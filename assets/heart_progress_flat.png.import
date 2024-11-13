@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kji8ejsl02nc"
-path="res://.godot/imported/idle.png-97e4016b1547b2b17a4cf7c5018e8a4a.ctex"
+uid="uid://buav7vqdbd4su"
+path="res://.godot/imported/heart_progress_flat.png-b9086ca27611b6ea6144b9b26cd1f789.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scripts/idle.png"
-dest_files=["res://.godot/imported/idle.png-97e4016b1547b2b17a4cf7c5018e8a4a.ctex"]
+source_file="res://assets/heart_progress_flat.png"
+dest_files=["res://.godot/imported/heart_progress_flat.png-b9086ca27611b6ea6144b9b26cd1f789.ctex"]
 
 [params]
 

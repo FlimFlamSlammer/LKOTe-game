@@ -203,6 +203,7 @@ size = Vector2(16, 32)
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemies", "Screenshakers"]]
 collision_layer = 2
 script = ExtResource("1_82s4d")
+max_health = 160.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -231,13 +232,6 @@ target_position = Vector2(18, 0)
 [node name="Hurtbox" parent="MiscHurtboxes/Charge" index="0"]
 polygon = PackedVector2Array(11, 5, 20, 4, 20, 3, 11, 2)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
-offset_left = -44.0
-offset_top = -88.0
-offset_right = 43.0
-offset_bottom = -18.0
-text = "Spear"
-
 [node name="DodgeCooldown" type="Timer" parent="."]
 process_callback = 0
 wait_time = 0.6
@@ -262,7 +256,11 @@ initial_state = NodePath("Windup")
 [node name="Charging" type="Node" parent="StateMachine/Attacking"]
 script = ExtResource("5_thc6q")
 charge_speed = 4.0
+max_charge_time = null
+damage = null
+stun_time = null
 knockback = 50.0
+impact = null
 
 [node name="Windup" type="Node" parent="StateMachine/Attacking"]
 script = ExtResource("6_atkau")

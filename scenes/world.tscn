@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://b0s2gt55niq34"]
+[gd_scene load_steps=9 format=3 uid="uid://b0s2gt55niq34"]
 
 [ext_resource type="Script" path="res://scripts/world_scene.gd" id="1_l3xal"]
 [ext_resource type="PackedScene" uid="uid://nk57keysmejs" path="res://scenes/castle_fight.tscn" id="2_k83hk"]
 [ext_resource type="Script" path="res://scripts/camera.gd" id="3_ooncp"]
 [ext_resource type="Material" uid="uid://clveml1ob6ok8" path="res://materials/Shift.tres" id="4_653yf"]
+[ext_resource type="Texture2D" uid="uid://b18we45ja2hwb" path="res://assets/heart_bg.png" id="5_mqte6"]
+[ext_resource type="Texture2D" uid="uid://c53yixm0v6sl6" path="res://assets/heart_progress.png" id="6_uvik7"]
+[ext_resource type="Script" path="res://scripts/player_bar.gd" id="7_kgwf0"]
+[ext_resource type="Texture2D" uid="uid://buav7vqdbd4su" path="res://assets/heart_progress_flat.png" id="8_bw012"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_l3xal")
@@ -19,15 +23,42 @@ zoom = Vector2(4, 4)
 script = ExtResource("3_ooncp")
 shift_shader_material = ExtResource("4_653yf")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="UILayer" type="CanvasLayer" parent="."]
+scale = Vector2(4, 4)
+transform = Transform2D(4, 0, 0, 4, 0, 0)
 
-[node name="Shift" type="ColorRect" parent="CanvasLayer"]
-material = ExtResource("4_653yf")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(1, 1, 1, 0)
+[node name="TopLeft" type="Control" parent="UILayer"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="MaxRegenBar" type="TextureProgressBar" parent="UILayer/TopLeft"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 9.0
+offset_right = 52.0
+offset_bottom = 49.0
+max_value = 22.0
+value = 22.0
+fill_mode = 3
+texture_under = ExtResource("5_mqte6")
+texture_progress = ExtResource("8_bw012")
+texture_progress_offset = Vector2(3, 3)
+script = ExtResource("7_kgwf0")
+signal_name = "max_regen_changed"
+
+[node name="HealthBar" type="TextureProgressBar" parent="UILayer/TopLeft"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 9.0
+offset_right = 44.0
+offset_bottom = 38.0
+max_value = 22.0
+value = 22.0
+fill_mode = 3
+radial_center_offset = Vector2(0, -6)
+texture_progress = ExtResource("6_uvik7")
+texture_progress_offset = Vector2(3, 3)
+script = ExtResource("7_kgwf0")
+signal_name = "health_changed"
 
 [connection signal="timeout" from="HitstopTimer" to="." method="_set_paused" binds= [false]]

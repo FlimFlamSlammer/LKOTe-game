@@ -35,6 +35,17 @@ func _update(delta: float) -> void:
 
 
 func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
+	var health_change = -data.damage
+	casted_owner.health += health_change
+	casted_owner.health_changed.emit(casted_owner.health, casted_owner.health / casted_owner.max_health)
+
+	var new_max_regen = casted_owner.health + (casted_owner.endurance * casted_owner.max_health)
+	if casted_owner.health - health_change < casted_owner.max_regen:
+		new_max_regen += health_change * 0.25
+	if new_max_regen < casted_owner.max_regen:
+		casted_owner.max_regen = new_max_regen
+		casted_owner.max_regen_changed.emit(casted_owner.max_regen, casted_owner.max_regen / casted_owner.max_health)
+
 	casted_owner.time_until_recover = data.stun_time / casted_owner.stun_resistance
 
 	casted_owner.anim_player.play("hit")
@@ -42,7 +53,6 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 
 	stun_time = data.stun_time
 	knockback = data.knockback
-	casted_owner.health -= data.damage
 	direction = data.direction
 
 	casted_owner.direction = -direction

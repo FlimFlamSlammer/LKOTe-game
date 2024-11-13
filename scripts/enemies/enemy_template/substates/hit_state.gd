@@ -17,9 +17,12 @@ func _enter(_previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	casted_owner.anim_player.play("hit")
 	casted_owner.anim_player.advance(0)
 
+	casted_owner.health -= data.damage
+	if (casted_owner.health <= 0):
+		casted_owner.queue_free()
+
 	stun_time = data.stun_time
 	knockback = data.knockback
-	casted_owner.health -= data.damage
 	direction = data.direction
 
 	casted_owner.direction = -direction

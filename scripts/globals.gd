@@ -3,8 +3,7 @@ class_name Globals
 enum Teams {PLAYERS, NONE, ENEMIES}
 
 const MAX_KNOCKBACK_TIME = 0.1
-const AERIAL_KNOCKBACK_MULT = 10
-
+const AERIAL_KNOCKBACK_MULT = 7.0
 
 ## Returns the amount of time the timer has been running for.
 static func get_time_passed(timer: Timer) -> float:

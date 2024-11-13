@@ -6,7 +6,6 @@
 
 [node name="Projectile" instance=ExtResource("1_n6crj")]
 script = ExtResource("1_y3gfj")
-ray_cast_offset = null
 speed = 800.0
 
 [node name="Sprite" parent="." index="0"]

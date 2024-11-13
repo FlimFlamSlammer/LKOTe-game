@@ -28,7 +28,7 @@ var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 @onready var health: float = max_health
 @onready var anim_player: AnimationPlayer = $AnimationPlayer
 @onready var wall_ray_cast: RayCast2D = $WallRayCast
-@onready var target: CharacterBody2D = get_parent().get_node("Player")
+@onready var target: CharacterBody2D = get_node(WorldScene.player_path)
 @onready var hurtboxes: Array[Node] = $Hurtboxes.get_children()
 
 func _ready() -> void:

@@ -15,7 +15,7 @@ func _ready() -> void:
 	collision_mask = Globals.disable_team_mask(team, collision_mask)
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	translate(speed * speed_mult * p_direction * delta)
 	sprite.flip_h = not sign(p_direction.x)
 	

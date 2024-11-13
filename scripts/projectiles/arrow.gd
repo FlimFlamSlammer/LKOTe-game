@@ -11,7 +11,7 @@ func _ready() -> void:
 	ray_cast.collision_mask = collision_mask
 
 
-func _physics_process(delta: float) -> void:
+func _process(delta: float) -> void:
 	pivot.rotation = Vector2.ZERO.angle_to_point(p_direction)
 	super(delta)
 

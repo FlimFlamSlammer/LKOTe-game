@@ -2,9 +2,10 @@ extends EnemyState
 
 @export var idle_time_range := Vector2(1, 3)
 
-func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
+func _enter(previous_state_path: NodePath, data: Dictionary = {}) -> void:
 	casted_owner.state_timer.start(randf_range(idle_time_range.x, idle_time_range.y))
 	casted_owner.state_timer.timeout.connect(_on_state_timer_timeout)
+	super(previous_state_path, data)
 
 
 func _physics_update(delta: float) -> void:

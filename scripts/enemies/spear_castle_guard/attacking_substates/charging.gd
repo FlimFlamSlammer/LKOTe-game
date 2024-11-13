@@ -21,9 +21,9 @@ func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 	casted_owner.substate_timer.timeout.connect(_finish)
 
 
-func _update(_delta: float) -> void:
+func _update(delta: float) -> void:
 	move_forward(charge_speed)
-	apply_gravity()
+	apply_gravity(delta)
 
 	casted_owner.move_and_slide()
 

@@ -4,12 +4,17 @@ extends CharacterBody2D
 signal hitstop(length: float)
 signal screenshake(amount: float)
 
+signal health_changed(health: float, ratio: float)
+signal max_regen_changed(max_regen: float, ratio: float)
+
 enum BufferableStates {NONE, JUMPING, ATTACKING}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 static var gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 @export var max_health: float = 100.0
+@export var regen_speed: float = 0.04
+@export var endurance: float = 0.2 ## The percentage of max health used as endurance.
 @export var stun_resistance: float = 1.0
 @export var damage_multiplier: float = 27.0
 @export var stun_time: Array[float] = [0.45, 0.45]
@@ -32,6 +37,7 @@ static var gravity: float = ProjectSettings.get_setting("physics/2d/default_grav
 @export var input_buffer_reset_delay: float = 0.15
 
 var health: float = max_health
+var max_regen: float = max_health ## The maximum amount of health that can be regenerated naturally.
 
 var direction: int = 1:
 	set(new_dir):
@@ -57,7 +63,6 @@ var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 @onready var targeting_ray_cast: RayCast2D = $TargetingRayCast
 @onready var hurtboxes: Array[Node] = $Hurtboxes.get_children()
 
-
 func _process(delta: float) -> void:
 	time_since_dodge += delta
 	time_since_recover += delta
@@ -67,6 +72,8 @@ func _process(delta: float) -> void:
 
 	if time_since_input_buffer > input_buffer_reset_delay:
 		input_buffer = BufferableStates.NONE
+
+	_regen_health(delta)
 
 
 func hit(data: Dictionary) -> void:
@@ -122,3 +129,11 @@ func instantiate_temp_fx(
 
 func _get_target(ray_cast: RayCast2D) -> Enemy:
 	return ray_cast.get_collider() as Enemy
+
+
+func _regen_health(delta: float, mult: float = 1.0) -> void:
+	if (health < max_regen):
+		var regen_amount = mult * max_health * regen_speed * delta
+		health += regen_amount
+		health = min(health, max_regen)
+		health_changed.emit(health, health / max_health)
