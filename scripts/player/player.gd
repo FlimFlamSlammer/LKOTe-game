@@ -7,6 +7,9 @@ signal screenshake(amount: float)
 signal health_changed(health: float, ratio: float)
 signal max_regen_changed(max_regen: float, ratio: float)
 
+signal stepped_to_target(step_distance: float)
+signal attack_momentum_gained(distance: int, instant: bool)
+
 enum BufferableStates {NONE, JUMPING, ATTACKING}
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -54,7 +57,6 @@ var input_buffer: BufferableStates = BufferableStates.NONE:
 		time_since_input_buffer = 0.0
 var combo_counter: int = 0
 var can_flip: bool
-var step_distance: float = 0.0
 
 var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 
@@ -91,22 +93,28 @@ func hit_enemy() -> int:
 				direction = direction,
 				stun_time = stun_time[combo_counter],
 				knockback = knockback[combo_counter],
+				normal = Vector2(candidate.position.x - position.x, candidate.position.y - position.y).normalized(),
 			})
 			instantiate_temp_fx(TempFX.Effects.SLASH, {"variant": randi() % 2}, true, candidate.position)
 			hit_counter += 1
-	screenshake.emit((impact[combo_counter] + impact[combo_counter] * hit_counter * 0.3) * (hit_counter > 0 as int) + 0.015 * (hit_counter == 0 as int))
+	screenshake.emit((impact[combo_counter] + impact[combo_counter] * hit_counter * 0.3) if hit_counter > 0 else 0.015)
 	if hit_counter > 0:
 		hitstop.emit((impact[combo_counter] + impact[combo_counter] * hit_counter * 0.3) * attack_hitstop_multiplier)
 	return hit_counter
 
 
-func step_to_target(distance: int) -> void:
+func step_to_target() -> void:
 	can_flip = false
 	var target: Enemy = _get_target(targeting_ray_cast)
+	var step_distance: float = 0
 	if target:
-		step_distance = max(absf(target.position.x - position.x) - 26, 0) + distance
-	else:
-		step_distance = distance
+		step_distance = max(absf(target.position.x - position.x) - 24, 0)
+	stepped_to_target.emit(step_distance)
+
+
+func gain_momentum_from_attack(distance: int, instant: bool) -> void:
+	translate(Vector2.RIGHT * distance * direction)
+	attack_momentum_gained.emit(distance, instant)
 
 
 func instantiate_temp_fx(
@@ -133,7 +141,7 @@ func _get_target(ray_cast: RayCast2D) -> Enemy:
 
 func _regen_health(delta: float, mult: float = 1.0) -> void:
 	if (health < max_regen):
-		var regen_amount = mult * max_health * regen_speed * delta
+		var regen_amount: float = mult * max_health * regen_speed * delta
 		health += regen_amount
 		health = min(health, max_regen)
 		health_changed.emit(health, health / max_health)

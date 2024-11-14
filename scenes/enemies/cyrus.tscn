@@ -253,7 +253,7 @@ script = ExtResource("1_6mjfu")
 arrow = ExtResource("2_qijf8")
 arrow_knockback = 3.0
 arrow_impact = 0.01
-max_health = 300.0
+max_health = 500.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

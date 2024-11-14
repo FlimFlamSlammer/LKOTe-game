@@ -173,11 +173,14 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0.0833333, 0.133333, 0.15, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
-"args": [3],
+"args": [],
 "method": &"step_to_target"
+}, {
+"args": [3, true],
+"method": &"gain_momentum_from_attack"
 }, {
 "args": [1, {
 "variant": 1
@@ -212,11 +215,17 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.133333, 0.15, 0.166667),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0, 0.1, 0.133333, 0.15, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
-"args": [4],
+"args": [6, true],
+"method": &"gain_momentum_from_attack"
+}, {
+"args": [],
 "method": &"step_to_target"
+}, {
+"args": [4, true],
+"method": &"gain_momentum_from_attack"
 }, {
 "args": [1, {
 "variant": 2
@@ -248,6 +257,8 @@ size = Vector2(16, 32)
 position = Vector2(1, 0)
 collision_layer = 4
 script = ExtResource("1_0chp3")
+stun_time = Array[float]([0.45, 0.6])
+knockback = Array[float]([8.0, 60.0])
 impact = Array[float]([0.11, 0.11])
 attack_hitstop_multiplier = 0.3
 hit_hitstop_multiplier = 0.6

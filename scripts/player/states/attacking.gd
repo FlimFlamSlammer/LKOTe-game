@@ -1,5 +1,10 @@
 extends PlayerState
 
+@export var step_period: float = 0.05
+
+var _step_distance: float
+var _step_velocity: float
+
 func _handle_input(event: InputEvent) -> void:
 	if event.is_action_pressed("dodge"):
 		finished.emit(States.DODGING)
@@ -11,8 +16,6 @@ func _handle_input(event: InputEvent) -> void:
 
 
 func _update(delta: float) -> void:
-	casted_owner.velocity.x = 0
-
 	if casted_owner.is_on_floor():
 		if casted_owner.time_since_attack > casted_owner.combo_length[casted_owner.combo_counter]:
 			finished.emit(States.RECOVERING)
@@ -25,9 +28,9 @@ func _update(delta: float) -> void:
 			- casted_owner.direction)
 			* (casted_owner.can_flip as int))
 
-	if casted_owner.step_distance > 0:
-		casted_owner.velocity.x = casted_owner.step_distance * casted_owner.direction / delta
-		casted_owner.step_distance = 0
+	if _step_distance > 0:
+		_progress_step(delta)
+
 	casted_owner.move_and_slide()
 
 
@@ -47,6 +50,26 @@ func _enter(_previous_state_path: NodePath, _data: Dictionary = {}) -> void:
 
 	casted_owner.anim_player.play("slash" + str(casted_owner.combo_counter + 1))
 
+	casted_owner.velocity.x = 0
+	_step_distance = 0
+	_step_velocity = 0
+
+	casted_owner.stepped_to_target.connect(_set_step)
+
+
+func _set_step(distance: float) -> void:
+	_step_distance += distance
+	_step_velocity = _step_distance / step_period * casted_owner.direction
+	casted_owner.velocity.x = _step_velocity
+
+
+func _progress_step(delta: float) -> void:
+	_step_distance -= absf(_step_velocity * delta)
+	if _step_distance <= 0:
+		_step_distance = 0
+		_step_velocity = 0
+		casted_owner.velocity.x = 0
+
 
 func _exit() -> void:
-	pass
+	casted_owner.stepped_to_target.disconnect(_set_step)
