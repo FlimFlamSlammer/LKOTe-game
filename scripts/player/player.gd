@@ -20,18 +20,18 @@ static var gravity: float = ProjectSettings.get_setting("physics/2d/default_grav
 @export var endurance: float = 0.2 ## The percentage of max health used as endurance.
 @export var stun_resistance: float = 1.0
 @export var damage_multiplier: float = 27.0
-@export var stun_time: Array[float] = [0.45, 0.45]
-@export var knockback: Array[float] = [4.0, 4.0]
-@export var combo_length: Array[float] = [0.35, 0.3]
-@export var recovery_length: Array[float] = [0.2, 0.2]
-@export var combo_damage: Array[float] = [1, 1.05]
-@export var impact: Array[float] = [0.02, 0.02]
+@export var stun_time: Array[float]
+@export var knockback: Array[float]
+@export var combo_length: Array[float]
+@export var recovery_length: Array[float]
+@export var combo_damage: Array[float]
+@export var impact: Array[float]
 @export var attack_hitstop_multiplier: float = 2.0
 @export var hit_hitstop_multiplier: float = 5.0
 
-@export var speed: float = 140.0
+@export var desperation: float = 140.0
 @export var jump_velocity: float = -200.0
-@export var combo_reset_delay: float = 0.7
+@export var combo_reset_delay: float = 0.5
 @export var min_jump_velocity: float = jump_velocity * 0.3
 @export var dodge_speed: float = 2.5
 @export var dodge_length: float = 0.15
@@ -46,15 +46,18 @@ var direction: int = 1:
 	set(new_dir):
 		direction = new_dir
 		scale.x = scale.y * direction
+
 var time_since_input_buffer: float = 99.9
 var time_since_attack: float = 99.9
 var time_since_recover: float = 99.9
 var time_since_dodge: float = 99.9
 var time_until_recover: float = 0.0
+
 var input_buffer: BufferableStates = BufferableStates.NONE:
 	set(value):
 		input_buffer = value
 		time_since_input_buffer = 0.0
+
 var combo_counter: int = 0
 var can_flip: bool
 
@@ -64,6 +67,7 @@ var _temp_fx: PackedScene = preload("res://scenes/temp_fx.tscn")
 @onready var state_machine: PlayerStateMachine = $StateTree
 @onready var targeting_ray_cast: RayCast2D = $TargetingRayCast
 @onready var hurtboxes: Array[Node] = $Hurtboxes.get_children()
+
 
 func _process(delta: float) -> void:
 	time_since_dodge += delta
@@ -118,10 +122,10 @@ func gain_momentum_from_attack(distance: int, instant: bool) -> void:
 
 
 func instantiate_temp_fx(
-		effect: TempFX.Effects,
-		effect_data: Dictionary = {},
-		sibling: bool = false,
-		fx_position: Vector2 = Vector2.ZERO) -> TempFX:
+	effect: TempFX.Effects,
+	effect_data: Dictionary = {},
+	sibling: bool = false,
+	fx_position: Vector2 = Vector2.ZERO) -> TempFX:
 	var new_temp_fx: TempFX = _temp_fx.instantiate()
 	new_temp_fx.position = fx_position
 	new_temp_fx.direction = direction

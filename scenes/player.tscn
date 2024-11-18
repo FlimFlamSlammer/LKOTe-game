@@ -1,7 +1,7 @@
-[gd_scene load_steps=24 format=3 uid="uid://bfeupkcec0b4q"]
+[gd_scene load_steps=25 format=3 uid="uid://bfeupkcec0b4q"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_0chp3"]
-[ext_resource type="Texture2D" uid="uid://b8s6vxvvmeio6" path="res://assets/knight-sheet.png" id="2_pow0e"]
+[ext_resource type="Texture2D" uid="uid://cvagfki8nj5rn" path="res://assets/player/knight-sheet.png" id="2_1lcoh"]
 [ext_resource type="Script" path="res://scripts/player/player_state_machine.gd" id="3_s4vq8"]
 [ext_resource type="Script" path="res://scripts/player/states/attacking.gd" id="4_davyj"]
 [ext_resource type="Script" path="res://scripts/player/states/recovering.gd" id="5_s4v4h"]
@@ -173,7 +173,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.0833333, 0.133333, 0.15, 0.166667),
+"times": PackedFloat32Array(0.1, 0.133333, 0.15, 0.166667),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "values": [{
 "args": [],
@@ -203,7 +203,7 @@ tracks/0/path = NodePath("Sprite2D:frame_coords")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.05, 0.15, 0.25),
+"times": PackedFloat32Array(0, 0.05, 0.2, 0.3),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5), Vector2i(3, 5)]
@@ -215,7 +215,7 @@ tracks/1/path = NodePath(".")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.133333, 0.15, 0.166667),
+"times": PackedFloat32Array(0, 0.15, 0.183333, 0.2, 0.216667),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "values": [{
 "args": [6, true],
@@ -237,6 +237,51 @@ tracks/1/keys = {
 }]
 }
 
+[sub_resource type="Animation" id="Animation_idtv1"]
+resource_name = "slash3"
+length = 0.4
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.25, 0.3, 0.35),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 7), Vector2i(1, 7), Vector2i(2, 7), Vector2i(3, 7), Vector2i(4, 7)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.233333, 0.25, 0.266667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"values": [{
+"args": [2, true],
+"method": &"gain_momentum_from_attack"
+}, {
+"args": [],
+"method": &"step_to_target"
+}, {
+"args": [7, true],
+"method": &"gain_momentum_from_attack"
+}, {
+"args": [1, {
+"variant": 3
+}],
+"method": &"instantiate_temp_fx"
+}, {
+"args": [],
+"method": &"hit_enemy"
+}]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0qps0"]
 _data = {
 "RESET": SubResource("Animation_f18bo"),
@@ -247,19 +292,23 @@ _data = {
 "jump": SubResource("Animation_2v3tf"),
 "run": SubResource("Animation_f085b"),
 "slash1": SubResource("Animation_ospc6"),
-"slash2": SubResource("Animation_qno5n")
+"slash2": SubResource("Animation_qno5n"),
+"slash3": SubResource("Animation_idtv1")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ecm3f"]
 size = Vector2(16, 32)
 
 [node name="Player" type="CharacterBody2D" groups=["Camera Impactors", "Hitstoppers", "Players", "Screenshakers"]]
-position = Vector2(1, 0)
+position = Vector2(-5, 0)
 collision_layer = 4
 script = ExtResource("1_0chp3")
-stun_time = Array[float]([0.45, 0.6])
-knockback = Array[float]([8.0, 60.0])
-impact = Array[float]([0.11, 0.11])
+stun_time = Array[float]([0.45, 0.45, 0.7])
+knockback = Array[float]([8.0, 8.0, 100.0])
+combo_length = Array[float]([0.35, 0.35, 0.7])
+recovery_length = Array[float]([0.2, 0.2, 0.2])
+combo_damage = Array[float]([1.0, 1.05, 1.6])
+impact = Array[float]([0.02, 0.02, 0.05])
 attack_hitstop_multiplier = 0.3
 hit_hitstop_multiplier = 0.6
 
@@ -270,16 +319,16 @@ libraries = {
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -16)
-texture = ExtResource("2_pow0e")
+texture = ExtResource("2_1lcoh")
 hframes = 8
-vframes = 7
+vframes = 8
 frame = 8
 
 [node name="Hitbox" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ecm3f")
 
 [node name="TargetingRayCast" type="RayCast2D" parent="."]
-target_position = Vector2(50, 0)
+target_position = Vector2(40, 0)
 collision_mask = 2
 
 [node name="Hurtboxes" type="Node2D" parent="."]
@@ -291,7 +340,7 @@ scale = Vector2(1, -1)
 collision_layer = 0
 collision_mask = 2
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Hurtboxes/0"]
+[node name="Hurtbox" type="CollisionPolygon2D" parent="Hurtboxes/0"]
 visible = false
 polygon = PackedVector2Array(2.00001, 1.99999, -22, 8.00006, -23, 5.83092e-05, -15, -16, 9.99995, -18)
 
@@ -306,6 +355,14 @@ position = Vector2(10, -2)
 rotation = 3.14159
 scale = Vector2(1, -1)
 polygon = PackedVector2Array(-17, 6.00004, -11, -7.99997, -1.00004, -16, 16, -15, 7.00001, 2.99998, -8.99996, 14)
+
+[node name="2" type="Area2D" parent="Hurtboxes"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="Hurtbox" type="CollisionPolygon2D" parent="Hurtboxes/2"]
+polygon = PackedVector2Array(-9, 2, 40, 0, -1, -6)
 
 [node name="StateTree" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_s4vq8")

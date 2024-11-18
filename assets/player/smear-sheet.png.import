@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dmtcv2levy5c7"
-path="res://.godot/imported/smear2.png-bd5c49f2fe14870231a285b440ac3086.ctex"
+uid="uid://cehohuuhoubky"
+path="res://.godot/imported/smear-sheet.png-ba454d577fcfd71701acf89d278137fc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/smear2.png"
-dest_files=["res://.godot/imported/smear2.png-bd5c49f2fe14870231a285b440ac3086.ctex"]
+source_file="res://assets/player/smear-sheet.png"
+dest_files=["res://.godot/imported/smear-sheet.png-ba454d577fcfd71701acf89d278137fc.ctex"]
 
 [params]
 

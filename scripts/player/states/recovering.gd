@@ -20,7 +20,7 @@ func _update(_delta: float) -> void:
 
 	var input_axis: float = Input.get_axis("move_left", "move_right")
 	casted_owner.direction = sign(input_axis) if input_axis != 0 else casted_owner.direction
-	casted_owner.velocity.x = input_axis * casted_owner.speed
+	casted_owner.velocity.x = input_axis * casted_owner.desperation
 
 	casted_owner.move_and_slide()
 
